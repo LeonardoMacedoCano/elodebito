@@ -18,7 +18,6 @@ public class PessoaDTO {
     }
 
     public Pessoa converterParaEntidade() {
-        Pessoa pessoa = new Pessoa(this.getId(), this.getCpf(), this.getNome());
-        return pessoa;
+        return new Pessoa(this.getId(), this.getCpf(), this.getNome());
     }
 }

@@ -2,15 +2,18 @@ package br.com.lcano.elodebito.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "debito")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Debito implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

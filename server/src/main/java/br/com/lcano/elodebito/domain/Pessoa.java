@@ -2,14 +2,17 @@ package br.com.lcano.elodebito.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "pessoa")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Pessoa implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
