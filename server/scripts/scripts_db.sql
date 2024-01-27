@@ -11,7 +11,7 @@ CREATE TABLE debito (
     FOREIGN KEY (idpessoa) REFERENCES pessoa(id)
 );
 
-CREATE TABLE parcela (
+CREATE TABLE debitoparcela (
     id INT AUTO_INCREMENT PRIMARY KEY,
     iddebito INT NOT NULL,
     numero INT NOT NULL,

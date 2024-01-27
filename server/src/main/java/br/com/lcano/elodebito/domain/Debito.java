@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "debito")
@@ -26,4 +28,7 @@ public class Debito implements Serializable {
 
     @Column(name = "datalancamento", nullable = false)
     private Date dataLancamento;
+
+    @OneToMany(mappedBy = "debito", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DebitoParcela> parcelas = new ArrayList<>();
 }
