@@ -1,4 +1,4 @@
-package br.com.lcano.elodebito.model;
+package br.com.lcano.elodebito.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

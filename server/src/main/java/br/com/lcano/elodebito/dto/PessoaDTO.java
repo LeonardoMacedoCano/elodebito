@@ -1,6 +1,6 @@
 package br.com.lcano.elodebito.dto;
 
-import br.com.lcano.elodebito.model.Pessoa;
+import br.com.lcano.elodebito.domain.Pessoa;
 import lombok.Data;
 
 @Data
