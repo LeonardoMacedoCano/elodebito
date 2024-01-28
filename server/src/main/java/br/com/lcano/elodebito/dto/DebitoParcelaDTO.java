@@ -14,7 +14,7 @@ public class DebitoParcelaDTO {
 
     private int numero;
 
-    private Date datavencimento;
+    private Date dataVencimento;
 
     private double valor;
 
@@ -27,7 +27,7 @@ public class DebitoParcelaDTO {
         DebitoParcelaDTO dto = new DebitoParcelaDTO();
         dto.setId(entity.getId());
         dto.setNumero(entity.getNumero());
-        dto.setDatavencimento(entity.getDataVencimento());
+        dto.setDataVencimento(entity.getDataVencimento());
         dto.setValor(entity.getValor());
         dto.setSituacao(entity.getSituacao());
         return dto;
@@ -44,7 +44,7 @@ public class DebitoParcelaDTO {
     public DebitoParcela converterParaEntidade() {
         return new DebitoParcela(this.getId(),
                 this.getNumero(),
-                this.getDatavencimento(),
+                this.getDataVencimento(),
                 this.getValor(),
                 this.getSituacao(),
                 this.getDebito());
