@@ -8,8 +8,10 @@ import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoRepository;
 import br.com.lcano.elodebito.repository.PessoaRepository;
 import br.com.lcano.elodebito.util.CustomException;
+import br.com.lcano.elodebito.util.CustomSuccess;
+import br.com.lcano.elodebito.util.MensagemUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -39,14 +41,13 @@ public class DebitoService {
         return debitos.stream().map(DebitoDTO::converterParaDTO).toList();
     }
 
-    public ResponseEntity<String> adicionarDebito(NovoDebitoDTO data) {
+    @Transactional
+    public ResponseEntity<Object> adicionarDebito(NovoDebitoDTO data) {
         Optional<Pessoa> optionalPessoa = getPessoaById(data.getIdPessoa());
 
         if (optionalPessoa.isPresent()) {
-            Pessoa pessoa = optionalPessoa.get();
-
             Debito novoDebito = new Debito();
-            novoDebito.setPessoa(pessoa);
+            novoDebito.setPessoa(optionalPessoa.get());
             novoDebito.setDataLancamento(data.getDataLancamento());
             debitoRepository.save(novoDebito);
 
@@ -54,7 +55,7 @@ public class DebitoService {
             for (NovoDebitoParcelaDTO parcelaDTO : parcelaDTOS) {
                 debitoParcelaService.adicionarParcela(parcelaDTO, novoDebito);
             }
-            return ResponseEntity.ok("Novo débito adicionado com sucesso.");
+            return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
         } else {
             throw new CustomException.PessoaNaoEncontradaComIdException(data.getIdPessoa());
         }

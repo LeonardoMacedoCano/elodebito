@@ -25,7 +25,7 @@ public class DebitoResource {
     }
 
     @PostMapping("adicionar")
-    public ResponseEntity<String> adicionarDebito(@RequestBody NovoDebitoDTO data) {
+    public ResponseEntity<Object> adicionarDebito(@RequestBody NovoDebitoDTO data) {
         return debitoService.adicionarDebito(data);
     }
 }
