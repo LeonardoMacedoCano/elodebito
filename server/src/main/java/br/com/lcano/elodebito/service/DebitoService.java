@@ -7,6 +7,7 @@ import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoRepository;
 import br.com.lcano.elodebito.repository.PessoaRepository;
+import br.com.lcano.elodebito.util.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,28 +40,23 @@ public class DebitoService {
     }
 
     public ResponseEntity<String> adicionarDebito(NovoDebitoDTO data) {
-        try {
-            Optional<Pessoa> optionalPessoa = getPessoaById(data.getIdPessoa());
+        Optional<Pessoa> optionalPessoa = getPessoaById(data.getIdPessoa());
 
-            if (optionalPessoa.isPresent()) {
-                Pessoa pessoa = optionalPessoa.get();
+        if (optionalPessoa.isPresent()) {
+            Pessoa pessoa = optionalPessoa.get();
 
-                Debito novoDebito = new Debito();
-                novoDebito.setPessoa(pessoa);
-                novoDebito.setDataLancamento(data.getDataLancamento());
-                debitoRepository.save(novoDebito);
+            Debito novoDebito = new Debito();
+            novoDebito.setPessoa(pessoa);
+            novoDebito.setDataLancamento(data.getDataLancamento());
+            debitoRepository.save(novoDebito);
 
-                List<NovoDebitoParcelaDTO> parcelaDTOS = data.getParcelasDTO();
-                for (NovoDebitoParcelaDTO parcelaDTO : parcelaDTOS) {
-                    debitoParcelaService.adicionarParcela(parcelaDTO, novoDebito);
-                }
-            } else {
-                throw new RuntimeException("Pessoa nao encontrada");
+            List<NovoDebitoParcelaDTO> parcelaDTOS = data.getParcelasDTO();
+            for (NovoDebitoParcelaDTO parcelaDTO : parcelaDTOS) {
+                debitoParcelaService.adicionarParcela(parcelaDTO, novoDebito);
             }
-
             return ResponseEntity.ok("Novo débito adicionado com sucesso.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar o débito: " + e.getMessage());
+        } else {
+            throw new CustomException.PessoaNaoEncontradaComIdException(data.getIdPessoa());
         }
     }
 
