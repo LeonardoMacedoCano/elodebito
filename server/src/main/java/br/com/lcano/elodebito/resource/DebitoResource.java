@@ -3,7 +3,6 @@ package br.com.lcano.elodebito.resource;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.service.DebitoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("debito")
 public class DebitoResource {
-    @Autowired
     private final DebitoService debitoService;
 
     public DebitoResource(DebitoService debitoService) {
@@ -26,6 +24,6 @@ public class DebitoResource {
 
     @PostMapping("adicionar")
     public ResponseEntity<Object> adicionarDebito(@RequestBody NovoDebitoDTO data) {
-        return debitoService.adicionarDebito(data);
+        return debitoService.adicionarNovoDebito(data);
     }
 }
