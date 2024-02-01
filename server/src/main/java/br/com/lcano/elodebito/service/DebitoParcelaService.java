@@ -9,20 +9,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DebitoParcelaService {
-    @Autowired
     private final DebitoParcelaRepository debitoParcelaRepository;
 
+    @Autowired
     public DebitoParcelaService(DebitoParcelaRepository debitoParcelaRepository) {
         this.debitoParcelaRepository = debitoParcelaRepository;
     }
 
-    public void adicionarParcela(NovoDebitoParcelaDTO data, Debito debito) {
+    public DebitoParcela criarNovaParcela(NovoDebitoParcelaDTO data, Debito debito) {
         DebitoParcela novaParcela = new DebitoParcela();
         novaParcela.setDebito(debito);
         novaParcela.setNumero(data.getNumero());
         novaParcela.setDataVencimento(data.getDataVencimento());
         novaParcela.setValor(data.getValor());
         novaParcela.setSituacao(data.getSituacao());
-        debitoParcelaRepository.save(novaParcela);
+        return novaParcela;
+    }
+
+    public void salvarParcela(DebitoParcela parcela) {
+        debitoParcelaRepository.save(parcela);
+    }
+
+    public void adicionarNovaParcela(NovoDebitoParcelaDTO data, Debito debito) {
+        DebitoParcela novaParcela = criarNovaParcela(data, debito);
+        salvarParcela(novaParcela);
     }
 }

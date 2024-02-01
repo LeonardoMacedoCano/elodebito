@@ -4,48 +4,76 @@ import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.domain.DebitoParcela;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-public class DebitoParcelaServiceTest {
+class DebitoParcelaServiceTest {
+
     @Mock
     private DebitoParcelaRepository debitoParcelaRepository;
 
-    @InjectMocks
     private DebitoParcelaService debitoParcelaService;
 
-    public DebitoParcelaServiceTest() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
+        debitoParcelaService = new DebitoParcelaService(debitoParcelaRepository);
     }
 
     @Test
-    void testAdicionarParcela() {
-        NovoDebitoParcelaDTO novoDebitoParcelaDTO = new NovoDebitoParcelaDTO();
-        novoDebitoParcelaDTO.setNumero(1);
-        novoDebitoParcelaDTO.setDataVencimento(new Date());
-        novoDebitoParcelaDTO.setValor(100.00);
-        novoDebitoParcelaDTO.setSituacao('A');
+    void testCriarNovaParcela() {
+        NovoDebitoParcelaDTO parcelaDTO = new NovoDebitoParcelaDTO();
+        parcelaDTO.setNumero(1);
+        parcelaDTO.setDataVencimento(new Date());
+        parcelaDTO.setValor(100.0);
+        parcelaDTO.setSituacao('A');
 
         Debito debito = new Debito();
-        debito.setId(1L);
 
-        debitoParcelaService.adicionarParcela(novoDebitoParcelaDTO, debito);
+        DebitoParcela novaParcela = debitoParcelaService.criarNovaParcela(parcelaDTO, debito);
 
-        ArgumentCaptor<DebitoParcela> argumentCaptor = ArgumentCaptor.forClass(DebitoParcela.class);
-        verify(debitoParcelaRepository).save(argumentCaptor.capture());
+        assertEquals(parcelaDTO.getNumero(), novaParcela.getNumero());
+        assertEquals(parcelaDTO.getDataVencimento(), novaParcela.getDataVencimento());
+        assertEquals(parcelaDTO.getValor(), novaParcela.getValor());
+        assertEquals(parcelaDTO.getSituacao(), novaParcela.getSituacao());
+        assertEquals(debito, novaParcela.getDebito());
+    }
 
-        DebitoParcela debitoParcela = argumentCaptor.getValue();
-        assertEquals(novoDebitoParcelaDTO.getNumero(), debitoParcela.getNumero());
-        assertEquals(novoDebitoParcelaDTO.getDataVencimento(), debitoParcela.getDataVencimento());
-        assertEquals(novoDebitoParcelaDTO.getValor(), debitoParcela.getValor());
-        assertEquals(novoDebitoParcelaDTO.getSituacao(), debitoParcela.getSituacao());
-        assertEquals(debito, debitoParcela.getDebito());
+    @Test
+    void testSalvarParcela() {
+        DebitoParcela parcela = new DebitoParcela();
+
+        debitoParcelaService.salvarParcela(parcela);
+
+        verify(debitoParcelaRepository, times(1)).save(parcela);
+    }
+
+    @Test
+    void testAdicionarNovaParcela() {
+        NovoDebitoParcelaDTO parcelaDTO = new NovoDebitoParcelaDTO();
+        parcelaDTO.setNumero(1);
+        parcelaDTO.setDataVencimento(new Date());
+        parcelaDTO.setValor(100.0);
+        parcelaDTO.setSituacao('A');
+
+        Debito debito = new Debito();
+
+        DebitoParcela parcela = new DebitoParcela();
+        parcela.setDebito(debito);
+        parcela.setNumero(parcelaDTO.getNumero());
+        parcela.setDataVencimento(parcelaDTO.getDataVencimento());
+        parcela.setValor(parcelaDTO.getValor());
+        parcela.setSituacao(parcelaDTO.getSituacao());
+
+        when(debitoParcelaRepository.save(any())).thenReturn(parcela);
+
+        debitoParcelaService.adicionarNovaParcela(parcelaDTO, debito);
+
+        verify(debitoParcelaRepository, times(1)).save(any());
     }
 }
