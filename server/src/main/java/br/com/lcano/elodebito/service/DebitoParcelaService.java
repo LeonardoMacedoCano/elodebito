@@ -6,6 +6,7 @@ import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class DebitoParcelaService {
@@ -30,8 +31,7 @@ public class DebitoParcelaService {
         debitoParcelaRepository.save(parcela);
     }
 
-    public void adicionarNovaParcela(NovoDebitoParcelaDTO data, Debito debito) {
-        DebitoParcela novaParcela = criarNovaParcela(data, debito);
-        salvarParcela(novaParcela);
+    public void salvarListaParcelas(List<DebitoParcela> parcelas) {
+        parcelas.forEach(this::salvarParcela);
     }
 }
