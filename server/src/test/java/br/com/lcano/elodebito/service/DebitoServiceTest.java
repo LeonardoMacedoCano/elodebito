@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class DebitoServiceTest {
 
     @Test
     public void testGetAllDebitos() {
+        Pageable pageable = Pageable.unpaged();
         Pessoa pessoa = new Pessoa();
         List<Debito> debitos = new ArrayList<>();
 
@@ -53,10 +57,11 @@ public class DebitoServiceTest {
             debito.setDataLancamento(new Date());
             debitos.add(debito);
         }
-
-        when(debitoRepository.findAll()).thenReturn(debitos);
-        List<DebitoDTO> debitoDTOs = debitoService.getAllDebitos();
-        assertEquals(debitos.size(), debitoDTOs.size());
+        
+        Page<Debito> pageDebitos = new PageImpl<>(debitos, pageable, debitos.size());
+        when(debitoRepository.findAll(pageable)).thenReturn(pageDebitos);
+        Page<DebitoDTO> debitoDTOPage = debitoService.getAllDebitos(pageable);
+        assertEquals(debitos.size(), debitoDTOPage.getContent().size());
     }
 
 
