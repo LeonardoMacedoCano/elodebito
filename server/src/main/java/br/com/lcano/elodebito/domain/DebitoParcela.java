@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(of = "id")
 public class DebitoParcela implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,8 +34,8 @@ public class DebitoParcela implements Serializable {
     @Column(nullable = false)
     private char situacao;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "iddebito")
     private Debito debito;
 }

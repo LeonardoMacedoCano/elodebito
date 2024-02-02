@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@ToString(of = "id")
 public class Debito implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -29,6 +30,6 @@ public class Debito implements Serializable {
     @Column(name = "datalancamento", nullable = false)
     private Date dataLancamento;
 
-    @OneToMany(mappedBy = "debito", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "debito", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DebitoParcela> parcelas = new ArrayList<>();
 }
