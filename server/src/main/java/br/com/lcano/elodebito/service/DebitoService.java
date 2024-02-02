@@ -36,8 +36,9 @@ public class DebitoService {
     @Transactional
     public ResponseEntity<Object> adicionarNovoDebito(NovoDebitoDTO data) {
         Debito novoDebito = criarDebito(data);
+        criarParcelas(novoDebito, data.getParcelasDTO());
         salvarDebito(novoDebito);
-        adicionarNovasParcelas(novoDebito, data.getParcelasDTO());
+        debitoParcelaService.salvarListaParcelas(novoDebito.getParcelas());
         return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
     }
 
@@ -48,11 +49,11 @@ public class DebitoService {
         return novoDebito;
     }
 
-    private void adicionarNovasParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
-        parcelasDTO.forEach(parcelaDTO -> debitoParcelaService.adicionarNovaParcela(parcelaDTO, debito));
+    private void criarParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
+        parcelasDTO.forEach(parcelaDTO -> debito.getParcelas().add(debitoParcelaService.criarNovaParcela(parcelaDTO, debito)));
     }
 
-    public void salvarDebito(Debito debito) {
+    private void salvarDebito(Debito debito) {
         debitoRepository.save(debito);
     }
 }

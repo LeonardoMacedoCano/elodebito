@@ -87,6 +87,6 @@ public class DebitoServiceTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(Map.of("success", MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO), response.getBody());
-        verify(debitoParcelaService, times(12)).adicionarNovaParcela(any(), any());
+        verify(debitoParcelaService, times(12)).criarNovaParcela(any(), any());
     }
 }
