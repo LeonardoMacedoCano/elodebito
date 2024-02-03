@@ -44,6 +44,36 @@ public class DebitoServiceTest {
         debitoService = new DebitoService(debitoRepository, debitoParcelaService, pessoaService);
     }
 
+    private NovoDebitoDTO criarNovoDebitoDTO(Long idPessoa, Date dataLancamento) {
+        NovoDebitoDTO dto = new NovoDebitoDTO();
+        dto.setIdPessoa(idPessoa);
+        dto.setDataLancamento(dataLancamento);
+        return dto;
+    }
+
+    @Test
+    void testSalvarDebito() {
+        Debito debito = new Debito();
+        debitoService.salvarDebito(debito);
+        verify(debitoRepository, times(1)).save(debito);
+    }
+
+    @Test
+    void testCriarDebito() {
+        Long idPessoa = anyLong();
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(idPessoa);
+
+        NovoDebitoDTO debitoDTO = criarNovoDebitoDTO(idPessoa, new Date());
+
+        when(pessoaService.getPessoaById(idPessoa)).thenReturn(pessoa);
+
+        Debito debito = debitoService.criarDebito(debitoDTO);
+
+        assertEquals(debitoDTO.getIdPessoa(), debito.getPessoa().getId());
+        assertEquals(debitoDTO.getDataLancamento(), debito.getDataLancamento());
+    }
+
     @Test
     public void testGetAllDebitos() {
         Pageable pageable = Pageable.unpaged();
@@ -57,7 +87,7 @@ public class DebitoServiceTest {
             debito.setDataLancamento(new Date());
             debitos.add(debito);
         }
-        
+
         Page<Debito> pageDebitos = new PageImpl<>(debitos, pageable, debitos.size());
         when(debitoRepository.findAll(pageable)).thenReturn(pageDebitos);
         Page<DebitoDTO> debitoDTOPage = debitoService.getAllDebitos(pageable);
@@ -92,6 +122,6 @@ public class DebitoServiceTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(Map.of("success", MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO), response.getBody());
-        verify(debitoParcelaService, times(12)).criarNovaParcela(any(), any());
+        verify(debitoParcelaService, times(1)).criarListaParcelas(any(), any());
     }
 }

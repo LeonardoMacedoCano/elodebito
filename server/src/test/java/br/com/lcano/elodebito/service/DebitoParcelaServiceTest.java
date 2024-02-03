@@ -29,22 +29,13 @@ class DebitoParcelaServiceTest {
         debitoParcelaService = new DebitoParcelaService(debitoParcelaRepository);
     }
 
-    @Test
-    void testCriarNovaParcela() {
-        NovoDebitoParcelaDTO parcelaDTO = new NovoDebitoParcelaDTO();
-        parcelaDTO.setNumero(1);
-        parcelaDTO.setDataVencimento(new Date());
-        parcelaDTO.setValor(100.0);
-        parcelaDTO.setSituacao('A');
-
-        Debito debito = new Debito();
-        DebitoParcela novaParcela = debitoParcelaService.criarNovaParcela(parcelaDTO, debito);
-
-        assertEquals(parcelaDTO.getNumero(), novaParcela.getNumero());
-        assertEquals(parcelaDTO.getDataVencimento(), novaParcela.getDataVencimento());
-        assertEquals(parcelaDTO.getValor(), novaParcela.getValor());
-        assertEquals(parcelaDTO.getSituacao(), novaParcela.getSituacao());
-        assertEquals(debito, novaParcela.getDebito());
+    private NovoDebitoParcelaDTO criarNovoDebitoParcelaDTO(int numero, Date dataVencimento, Double valor, char situacao) {
+        NovoDebitoParcelaDTO dto = new NovoDebitoParcelaDTO();
+        dto.setNumero(numero);
+        dto.setDataVencimento(dataVencimento);
+        dto.setValor(valor);
+        dto.setSituacao(situacao);
+        return dto;
     }
 
     @Test
@@ -58,6 +49,44 @@ class DebitoParcelaServiceTest {
     void testSalvarListaParcelas() {
         List<DebitoParcela> parcelas = Arrays.asList(new DebitoParcela(), new DebitoParcela(), new DebitoParcela());
         debitoParcelaService.salvarListaParcelas(parcelas);
-        verify(debitoParcelaRepository, times(3)).save(any());
+        verify(debitoParcelaRepository, times(1)).saveAll(any());
+    }
+
+    @Test
+    void testCriarParcela() {
+        NovoDebitoParcelaDTO parcelaDTO = criarNovoDebitoParcelaDTO(1, new Date(), 100.0, 'A');
+        Debito debito = new Debito();
+        DebitoParcela novaParcela = debitoParcelaService.criarParcela(parcelaDTO, debito);
+
+        assertEquals(parcelaDTO.getNumero(), novaParcela.getNumero());
+        assertEquals(parcelaDTO.getDataVencimento(), novaParcela.getDataVencimento());
+        assertEquals(parcelaDTO.getValor(), novaParcela.getValor());
+        assertEquals(parcelaDTO.getSituacao(), novaParcela.getSituacao());
+        assertEquals(debito, novaParcela.getDebito());
+    }
+
+    @Test
+    void testCriarListaParcela() {
+        Debito debito = new Debito();
+        List<NovoDebitoParcelaDTO> parcelasDTO = List.of(
+            criarNovoDebitoParcelaDTO(1, new Date(), 33.34, 'B'),
+            criarNovoDebitoParcelaDTO(2, new Date(), 33.33, 'A'),
+            criarNovoDebitoParcelaDTO(3, new Date(), 33.33, 'A')
+        );
+
+        List<DebitoParcela> parcelas = debitoParcelaService.criarListaParcelas(debito, parcelasDTO);
+
+        assertEquals(parcelasDTO.size(), parcelas.size());
+
+        for (int i = 0; i < parcelasDTO.size(); i++) {
+            NovoDebitoParcelaDTO dto = parcelasDTO.get(i);
+            DebitoParcela parcela = parcelas.get(i);
+
+            assertEquals(dto.getNumero(), parcela.getNumero());
+            assertEquals(dto.getDataVencimento(), parcela.getDataVencimento());
+            assertEquals(dto.getValor(), parcela.getValor());
+            assertEquals(dto.getSituacao(), parcela.getSituacao());
+            assertEquals(debito, parcela.getDebito());
+        }
     }
 }
