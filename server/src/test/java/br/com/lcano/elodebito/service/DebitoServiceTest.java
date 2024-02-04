@@ -17,10 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -72,6 +69,19 @@ public class DebitoServiceTest {
 
         assertEquals(debitoDTO.getIdPessoa(), debito.getPessoa().getId());
         assertEquals(debitoDTO.getDataLancamento(), debito.getDataLancamento());
+    }
+
+    @Test
+    void testGetDebitoById() {
+        Long id = 1L;
+        Debito debitoMock = new Debito();
+        debitoMock.setId(id);
+
+        when(debitoRepository.findById(id)).thenReturn(Optional.of(debitoMock));
+
+        Debito debito = debitoService.getDebitoById(id);
+
+        assertEquals(id, debito.getId());
     }
 
     @Test

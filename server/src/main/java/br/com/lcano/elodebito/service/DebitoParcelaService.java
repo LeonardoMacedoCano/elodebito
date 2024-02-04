@@ -4,7 +4,11 @@ import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.domain.DebitoParcela;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
+import br.com.lcano.elodebito.util.CustomSuccess;
+import br.com.lcano.elodebito.util.MensagemUtils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,5 +44,11 @@ public class DebitoParcelaService {
         return parcelasDTO.stream()
             .map(parcelaDTO -> criarParcela(parcelaDTO, debito))
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResponseEntity<Object> adicionarNovasParcelasAoDebito(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
+        salvarListaParcelas(criarListaParcelas(debito, parcelasDTO));
+        return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_ADICIONADO_COM_SUCESSO);
     }
 }
