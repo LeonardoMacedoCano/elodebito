@@ -4,6 +4,7 @@ import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.repository.DebitoRepository;
+import br.com.lcano.elodebito.util.CustomException;
 import br.com.lcano.elodebito.util.CustomSuccess;
 import br.com.lcano.elodebito.util.MensagemUtils;
 import jakarta.transaction.Transactional;
@@ -37,6 +38,11 @@ public class DebitoService {
         novoDebito.setPessoa(pessoaService.getPessoaById(data.getIdPessoa()));
         novoDebito.setDataLancamento(data.getDataLancamento());
         return novoDebito;
+    }
+
+    public Debito getDebitoById(Long id) {
+        return debitoRepository.findById(id)
+                .orElseThrow(() -> new CustomException.DebitoNaoEncontradaComIdException(id));
     }
 
     public Page<DebitoDTO> getAllDebitos(Pageable pageable) {
