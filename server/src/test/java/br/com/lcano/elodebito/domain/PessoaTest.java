@@ -1,5 +1,6 @@
 package br.com.lcano.elodebito.domain;
 
+import br.com.lcano.elodebito.util.CustomException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +50,29 @@ public class PessoaTest {
         assertEquals(pessoa1.getNome().hashCode(), pessoa2.getNome().hashCode());
         assertNotEquals(pessoa1.getCpf().hashCode(), pessoa3.getCpf().hashCode());
         assertNotEquals(pessoa1.getNome().hashCode(), pessoa3.getNome().hashCode());
+    }
+
+    @Test
+    public void testValidarPessoaComCPFInvalido() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCpf("000");
+        pessoa.setNome("Nome válido");
+        assertThrows(CustomException.PessoaCPFInvalidoException.class, pessoa::validarPessoa);
+    }
+
+    @Test
+    public void testValidarPessoaComNomeInvalido() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCpf("12345678901");
+        pessoa.setNome(" ");
+        assertThrows(CustomException.PessoaNomeInvalidoException.class, pessoa::validarPessoa);
+    }
+
+    @Test
+    public void testValidarPessoaComCPFENomeValidos() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCpf("12345678901");
+        pessoa.setNome("Nome válido");
+        assertDoesNotThrow(pessoa::validarPessoa);
     }
 }
