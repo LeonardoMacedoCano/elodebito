@@ -7,9 +7,27 @@ public class CustomException extends RuntimeException {
         }
     }
 
+    public static class PessoaCPFInvalidoException extends RuntimeException {
+        public PessoaCPFInvalidoException() {
+            super(String.format(MensagemUtils.PESSOA_CPF_INVALIDO));
+        }
+    }
+
+    public static class PessoaNomeInvalidoException extends RuntimeException {
+        public PessoaNomeInvalidoException() {
+            super(String.format(MensagemUtils.PESSOA_NOME_INVALIDO));
+        }
+    }
+
     public static class DebitoNaoEncontradaComIdException extends RuntimeException {
         public DebitoNaoEncontradaComIdException(Long IDDebito) {
             super(String.format(MensagemUtils.DEBITO_NAO_ENCONTRADA_COM_ID, IDDebito));
+        }
+    }
+
+    public static class DebitoDataLancamentoInvalidoException extends RuntimeException {
+        public DebitoDataLancamentoInvalidoException() {
+            super(String.format(MensagemUtils.DEBITO_DATA_LANCAMENTO_INVALIDO));
         }
     }
 }

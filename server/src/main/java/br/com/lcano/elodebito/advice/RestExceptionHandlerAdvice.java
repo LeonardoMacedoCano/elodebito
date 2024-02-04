@@ -21,7 +21,27 @@ public class RestExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({CustomException.PessoaNaoEncontradaComIdException.class})
-    protected ResponseEntity<Object> handleDespesaNaoEncontradaComIdException(CustomException.PessoaNaoEncontradaComIdException ex) {
+    protected ResponseEntity<Object> handlePessoaNaoEncontradaComIdException(CustomException.PessoaNaoEncontradaComIdException ex) {
         return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler({CustomException.PessoaCPFInvalidoException.class})
+    protected ResponseEntity<Object> handlePessoaCPFInvalidoException(CustomException.PessoaCPFInvalidoException ex) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler({CustomException.PessoaNomeInvalidoException.class})
+    protected ResponseEntity<Object> handlePessoaNomeInvalidoException(CustomException.PessoaNomeInvalidoException ex) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler({CustomException.DebitoNaoEncontradaComIdException.class})
+    protected ResponseEntity<Object> handleDebitoNaoEncontradaComIdException(CustomException.DebitoNaoEncontradaComIdException ex) {
+        return buildResponseEntity(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler({CustomException.DebitoDataLancamentoInvalidoException.class})
+    protected ResponseEntity<Object> handleDebitoDataLancamentoInvalidoException(CustomException.DebitoDataLancamentoInvalidoException ex) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }
