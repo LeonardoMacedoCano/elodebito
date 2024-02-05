@@ -22,6 +22,11 @@ public class DebitoResource {
         return ResponseEntity.ok(this.debitoService.getAllDebitos(pageable));
     }
 
+    @GetMapping("/{idDebito}/getById")
+    public ResponseEntity<DebitoDTO> getDebitoById(@PathVariable("idDebito") Long idDebito) {
+        return ResponseEntity.ok(DebitoDTO.converterParaDTO(this.debitoService.getDebitoById(idDebito)));
+    }
+
     @PostMapping("adicionar")
     public ResponseEntity<Object> adicionarDebito(@RequestBody NovoDebitoDTO data) {
         return debitoService.adicionarNovoDebito(data);
