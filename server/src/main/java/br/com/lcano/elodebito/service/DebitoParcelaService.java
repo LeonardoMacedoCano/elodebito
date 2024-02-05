@@ -51,4 +51,8 @@ public class DebitoParcelaService {
         salvarListaParcelas(criarListaParcelas(debito, parcelasDTO));
         return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_ADICIONADO_COM_SUCESSO);
     }
+
+    public void validarParcelas(List<DebitoParcela> parcelas) {
+        parcelas.forEach(debitoParcela -> debitoParcela.validarParcela(debitoParcelaRepository));
+    }
 }

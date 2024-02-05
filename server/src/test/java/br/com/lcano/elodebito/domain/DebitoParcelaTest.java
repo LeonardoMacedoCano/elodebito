@@ -1,15 +1,24 @@
 package br.com.lcano.elodebito.domain;
 
+import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.util.CustomException;
 import br.com.lcano.elodebito.util.DateUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class DebitoParcelaTest {
+
+    @Mock
+    private DebitoParcelaRepository debitoParcelaRepository;
 
     @Test
     void testCreate() {
@@ -39,9 +48,13 @@ public class DebitoParcelaTest {
         parcelaExistente.setId(1L);
         parcelaExistente.setNumero(1);
 
-        Debito debito = new Debito();
         List<DebitoParcela> parcelasExistentes = new ArrayList<>();
         parcelasExistentes.add(parcelaExistente);
+
+        when(debitoParcelaRepository.findByDebitoIdAndNumero(1L, 1)).thenReturn(parcelaExistente);
+
+        Debito debito = new Debito();
+        debito.setId(1L);
         debito.setParcelas(parcelasExistentes);
 
         DebitoParcela novaParcela = new DebitoParcela();
@@ -52,7 +65,7 @@ public class DebitoParcelaTest {
         novaParcela.setSituacao('A');
         novaParcela.setDebito(debito);
 
-        assertThrows(CustomException.ParcelaNumeroInvalidoDebitoException.class, novaParcela::validarParcela);
+        assertThrows(CustomException.ParcelaNumeroInvalidoDebitoException.class, () -> novaParcela.validarParcela(debitoParcelaRepository));
     }
 
     @Test
@@ -67,7 +80,7 @@ public class DebitoParcelaTest {
         parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
-        assertThrows(CustomException.ParcelaDataVencimentoInvalidoException.class, parcela::validarParcela);
+        assertThrows(CustomException.ParcelaDataVencimentoInvalidoException.class, () -> parcela.validarParcela(debitoParcelaRepository));
     }
 
     @Test
@@ -80,7 +93,7 @@ public class DebitoParcelaTest {
         parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
-        assertThrows(CustomException.ParcelaValorInvalidoException.class, parcela::validarParcela);
+        assertThrows(CustomException.ParcelaValorInvalidoException.class, () -> parcela.validarParcela(debitoParcelaRepository));
     }
 
     @Test
@@ -93,6 +106,6 @@ public class DebitoParcelaTest {
         parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
-        assertDoesNotThrow(parcela::validarParcela);
+        assertDoesNotThrow(() -> parcela.validarParcela(debitoParcelaRepository));
     }
 }

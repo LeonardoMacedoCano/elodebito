@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -87,6 +88,21 @@ class DebitoParcelaServiceTest {
             assertEquals(dto.getValor(), parcela.getValor());
             assertEquals(dto.getSituacao(), parcela.getSituacao());
             assertEquals(debito, parcela.getDebito());
+        }
+    }
+
+    @Test
+    void testValidarParcelas() {
+        DebitoParcela parcela1 = mock(DebitoParcela.class);
+        DebitoParcela parcela2 = mock(DebitoParcela.class);
+        DebitoParcela parcela3 = mock(DebitoParcela.class);
+
+        List<DebitoParcela> parcelas = Arrays.asList(parcela1, parcela2, parcela3);
+
+        debitoParcelaService.validarParcelas(parcelas);
+
+        for (DebitoParcela parcela : parcelas) {
+            verify(parcela, times(1)).validarParcela(debitoParcelaRepository);
         }
     }
 }

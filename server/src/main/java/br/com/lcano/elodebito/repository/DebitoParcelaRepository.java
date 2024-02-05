@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DebitoParcelaRepository extends JpaRepository<DebitoParcela, Long> {
     List<DebitoParcela> findByDebito(Debito debito);
+
+    DebitoParcela findByDebitoIdAndNumero(Long id, int numero);
 }

@@ -1,5 +1,6 @@
 package br.com.lcano.elodebito.domain;
 
+import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.util.CustomException;
 import br.com.lcano.elodebito.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -42,13 +43,10 @@ public class DebitoParcela implements Serializable {
     @JoinColumn(name = "iddebito")
     private Debito debito;
 
-    private void validarNumero() {
-        if (Objects.nonNull(this.debito) && Objects.nonNull(this.debito.getParcelas())) {
-            for (DebitoParcela parcela : this.debito.getParcelas()) {
-                if (parcela.getNumero() == this.numero && !parcela.getId().equals(id)) {
-                    throw new CustomException.ParcelaNumeroInvalidoDebitoException();
-                }
-            }
+    private void validarNumero(DebitoParcelaRepository parcelaRepository) {
+        DebitoParcela parcelaExistente = parcelaRepository.findByDebitoIdAndNumero(this.debito.getId(), this.numero);
+        if (parcelaExistente != null && parcelaExistente.getId() != null && !parcelaExistente.getId().equals(this.id)) {
+            throw new CustomException.ParcelaNumeroInvalidoDebitoException();
         }
     }
 
@@ -64,8 +62,8 @@ public class DebitoParcela implements Serializable {
         }
     }
 
-    public void validarParcela() {
-        this.validarNumero();
+    public void validarParcela(DebitoParcelaRepository parcelaRepository) {
+        this.validarNumero(parcelaRepository);
         this.validarDataVencimento();
         this.validarValor();
     }
