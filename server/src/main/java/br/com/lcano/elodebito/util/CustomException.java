@@ -30,4 +30,22 @@ public class CustomException extends RuntimeException {
             super(String.format(MensagemUtils.DEBITO_DATA_LANCAMENTO_INVALIDO));
         }
     }
+
+    public static class ParcelaNumeroInvalidoDebitoException extends RuntimeException {
+        public ParcelaNumeroInvalidoDebitoException() {
+            super(String.format(MensagemUtils.PARCELA_NUMERO_INVALIDO_DEBITO));
+        }
+    }
+
+    public static class ParcelaDataVencimentoInvalidoException extends RuntimeException {
+        public ParcelaDataVencimentoInvalidoException() {
+            super(String.format(MensagemUtils.PARCELA_DATA_VENCIMENTO_INVALIDO));
+        }
+    }
+
+    public static class ParcelaValorInvalidoException extends RuntimeException {
+        public ParcelaValorInvalidoException() {
+            super(String.format(MensagemUtils.PARCELA_VALOR_INVALIDO));
+        }
+    }
 }
