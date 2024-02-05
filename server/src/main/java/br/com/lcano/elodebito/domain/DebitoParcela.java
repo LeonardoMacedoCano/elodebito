@@ -1,11 +1,14 @@
 package br.com.lcano.elodebito.domain;
 
+import br.com.lcano.elodebito.util.CustomException;
+import br.com.lcano.elodebito.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "debitoparcela")
@@ -38,4 +41,32 @@ public class DebitoParcela implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "iddebito")
     private Debito debito;
+
+    private void validarNumero() {
+        if (Objects.nonNull(this.debito) && Objects.nonNull(this.debito.getParcelas())) {
+            for (DebitoParcela parcela : this.debito.getParcelas()) {
+                if (parcela.getNumero() == this.numero && !parcela.getId().equals(id)) {
+                    throw new CustomException.ParcelaNumeroInvalidoDebitoException();
+                }
+            }
+        }
+    }
+
+    private void validarDataVencimento() {
+        if (Objects.isNull(this.dataVencimento) || this.dataVencimento.compareTo(DateUtils.getDataAtual()) < 0) {
+            throw new CustomException.ParcelaDataVencimentoInvalidoException();
+        }
+    }
+
+    private void validarValor() {
+        if (this.valor <= 0.0) {
+            throw new CustomException.ParcelaValorInvalidoException();
+        }
+    }
+
+    public void validarParcela() {
+        this.validarNumero();
+        this.validarDataVencimento();
+        this.validarValor();
+    }
 }
