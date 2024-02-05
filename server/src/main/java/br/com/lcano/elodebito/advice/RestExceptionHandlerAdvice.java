@@ -16,7 +16,7 @@ public class RestExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({Exception.class})
-    protected ResponseEntity<Object> handleGenericException(Exception ex) {
+    protected ResponseEntity<Object> handleGenericException() {
         return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, MensagemUtils.ERRO_GENERICO);
     }
 
