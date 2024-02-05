@@ -57,7 +57,7 @@ public class DebitoParcelaTest {
 
     @Test
     void testValidarParcela_DataVencimentoInvalido() {
-        Date DataOntem = new Date(DateUtils.getDataAtual().getTime() - (1000 * 60 * 60 * 24));
+        Date DataOntem = new Date(DateUtils.getDataAtual().getTime() - (DateUtils.UM_DIA_EM_MILISEGUNDOS));
 
         DebitoParcela parcela = new DebitoParcela();
         parcela.setId(1L);
