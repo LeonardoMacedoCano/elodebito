@@ -1,5 +1,7 @@
 package br.com.lcano.elodebito.domain;
 
+import br.com.lcano.elodebito.util.CustomException;
+import br.com.lcano.elodebito.util.DateUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serial;
@@ -32,4 +34,22 @@ public class Debito implements Serializable {
 
     @OneToMany(mappedBy = "debito", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DebitoParcela> parcelas = new ArrayList<>();
+
+    private void validarDataLancamento() {
+        if (this.dataLancamento == null || this.dataLancamento.compareTo(DateUtils.getDataAtual()) > 0) {
+            throw new CustomException.DebitoDataLancamentoInvalidoException();
+        }
+    }
+
+    private void validarParcelas() {
+        if (this.parcelas.isEmpty()) {
+            throw new CustomException.DebitoQuantidadeParcelasInvalidasException();
+        }
+    }
+
+    public void validarDebito() {
+        this.pessoa.validarPessoa();
+        this.validarDataLancamento();
+        this.validarParcelas();
+    }
 }

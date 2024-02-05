@@ -5,7 +5,9 @@ import br.com.lcano.elodebito.domain.Pessoa;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
+import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.repository.DebitoRepository;
+import br.com.lcano.elodebito.util.DateUtils;
 import br.com.lcano.elodebito.util.MensagemUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@ public class DebitoServiceTest {
     private DebitoRepository debitoRepository;
 
     @Mock
+    private DebitoParcelaRepository debitoParcelaRepository;
+
+    @InjectMocks
     private DebitoParcelaService debitoParcelaService;
 
     @Mock
@@ -117,21 +122,23 @@ public class DebitoServiceTest {
             parcelasDTO.add(novaParcelaDTO);
         }
 
-        NovoDebitoDTO novoDebitoDTO = new NovoDebitoDTO();
-        novoDebitoDTO.setIdPessoa(1L);
-        novoDebitoDTO.setParcelasDTO(parcelasDTO);
-
         Pessoa pessoa = new Pessoa();
         pessoa.setId(1L);
-        Debito debito = new Debito();
+        pessoa.setCpf("11111111111");
+        pessoa.setNome("Osvaldo");
+
+        NovoDebitoDTO novoDebitoDTO = new NovoDebitoDTO();
+        novoDebitoDTO.setDataLancamento(DateUtils.getDataAtual());
+        novoDebitoDTO.setIdPessoa(pessoa.getId());
+        novoDebitoDTO.setParcelasDTO(parcelasDTO);
 
         when(pessoaService.getPessoaById(pessoa.getId())).thenReturn(pessoa);
-        when(debitoRepository.save(debito)).thenReturn(debito);
 
         ResponseEntity<Object> response = debitoService.adicionarNovoDebito(novoDebitoDTO);
 
+        verify(debitoRepository, times(1)).save(any(Debito.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(Map.of("success", MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO), response.getBody());
-        verify(debitoParcelaService, times(1)).criarListaParcelas(any(), any());
+        verify(debitoParcelaRepository, times(1)).saveAll(anyIterable());
     }
 }

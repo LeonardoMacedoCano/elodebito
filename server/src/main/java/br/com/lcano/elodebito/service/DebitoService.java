@@ -53,6 +53,7 @@ public class DebitoService {
     public ResponseEntity<Object> adicionarNovoDebito(NovoDebitoDTO data) {
         Debito novoDebito = criarDebito(data);
         novoDebito.getParcelas().addAll(debitoParcelaService.criarListaParcelas(novoDebito, data.getParcelasDTO()));
+        novoDebito.validarDebito();
         salvarDebito(novoDebito);
         debitoParcelaService.salvarListaParcelas(novoDebito.getParcelas());
         return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
