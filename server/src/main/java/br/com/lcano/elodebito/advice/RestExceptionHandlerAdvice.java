@@ -45,6 +45,11 @@ public class RestExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
         return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler({CustomException.DebitoQuantidadeParcelasInvalidasException.class})
+    protected ResponseEntity<Object> handleDebitoQuantidadeParcelasInvalidasException(CustomException.DebitoQuantidadeParcelasInvalidasException ex) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler({CustomException.ParcelaNumeroInvalidoDebitoException.class})
     protected ResponseEntity<Object> handleParcelaNumeroInvalidoDebitoException(CustomException.ParcelaNumeroInvalidoDebitoException ex) {
         return buildResponseEntity(HttpStatus.BAD_REQUEST, ex.getMessage());

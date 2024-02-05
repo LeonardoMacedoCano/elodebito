@@ -31,6 +31,12 @@ public class CustomException extends RuntimeException {
         }
     }
 
+    public static class DebitoQuantidadeParcelasInvalidasException extends RuntimeException {
+        public DebitoQuantidadeParcelasInvalidasException() {
+            super(String.format(MensagemUtils.DEBITO_QUANTIDADE_PARCELAS_INVALIDAS));
+        }
+    }
+
     public static class ParcelaNumeroInvalidoDebitoException extends RuntimeException {
         public ParcelaNumeroInvalidoDebitoException() {
             super(String.format(MensagemUtils.PARCELA_NUMERO_INVALIDO_DEBITO));
