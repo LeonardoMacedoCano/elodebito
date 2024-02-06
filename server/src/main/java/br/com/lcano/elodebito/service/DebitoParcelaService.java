@@ -55,4 +55,8 @@ public class DebitoParcelaService {
     public void validarParcelas(List<DebitoParcela> parcelas) {
         parcelas.forEach(debitoParcela -> debitoParcela.validarParcela(debitoParcelaRepository));
     }
+
+    public ResponseEntity<Object> getValorTotalParcelas() {
+        return ResponseEntity.ok(debitoParcelaRepository.getValorTotalParcelas());
+    }
 }

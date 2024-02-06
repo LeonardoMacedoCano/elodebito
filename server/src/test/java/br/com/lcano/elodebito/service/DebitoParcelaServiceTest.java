@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -104,5 +106,15 @@ class DebitoParcelaServiceTest {
         for (DebitoParcela parcela : parcelas) {
             verify(parcela, times(1)).validarParcela(debitoParcelaRepository);
         }
+    }
+
+    @Test
+    void testGetValorTotalParcelas() {
+        double valorTotalEsperado = 500.0;
+        when(debitoParcelaRepository.getValorTotalParcelas()).thenReturn(valorTotalEsperado);
+
+        ResponseEntity<Object> responseEntity = debitoParcelaService.getValorTotalParcelas();
+
+        assertEquals(ResponseEntity.ok(valorTotalEsperado), responseEntity);
     }
 }

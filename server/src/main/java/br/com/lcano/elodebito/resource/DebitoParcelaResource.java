@@ -22,4 +22,9 @@ public class DebitoParcelaResource {
     public ResponseEntity<Object> adicionarParcelas(@PathVariable("idDebito") Long idDebito, @RequestBody List<NovoDebitoParcelaDTO> data) {
         return debitoParcelaService.adicionarNovasParcelasAoDebito(debitoService.getDebitoById(idDebito), data);
     }
+
+    @GetMapping("getValorTotalParcelas")
+    public ResponseEntity<Object> getValorTotalParcelas() {
+        return debitoParcelaService.getValorTotalParcelas();
+    }
 }
