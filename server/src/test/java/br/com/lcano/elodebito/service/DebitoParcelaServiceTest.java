@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -49,9 +48,9 @@ class DebitoParcelaServiceTest {
     }
 
     @Test
-    void testSalvarListaParcelas() {
+    void testSalvarParcelas() {
         List<DebitoParcela> parcelas = Arrays.asList(new DebitoParcela(), new DebitoParcela(), new DebitoParcela());
-        debitoParcelaService.salvarListaParcelas(parcelas);
+        debitoParcelaService.salvarParcelas(parcelas);
         verify(debitoParcelaRepository, times(1)).saveAll(any());
     }
 
@@ -69,7 +68,7 @@ class DebitoParcelaServiceTest {
     }
 
     @Test
-    void testCriarListaParcela() {
+    void testCriarParcelas() {
         Debito debito = new Debito();
         List<NovoDebitoParcelaDTO> parcelasDTO = List.of(
             criarNovoDebitoParcelaDTO(1, new Date(), 33.34, 'B'),
@@ -77,7 +76,7 @@ class DebitoParcelaServiceTest {
             criarNovoDebitoParcelaDTO(3, new Date(), 33.33, 'A')
         );
 
-        List<DebitoParcela> parcelas = debitoParcelaService.criarListaParcelas(debito, parcelasDTO);
+        List<DebitoParcela> parcelas = debitoParcelaService.criarParcelas(debito, parcelasDTO);
 
         assertEquals(parcelasDTO.size(), parcelas.size());
 

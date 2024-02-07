@@ -50,13 +50,13 @@ public class DebitoService {
     }
 
     @Transactional
-    public ResponseEntity<Object> adicionarNovoDebito(NovoDebitoDTO data) {
+    public ResponseEntity<Object> gerarDebito(NovoDebitoDTO data) {
         Debito novoDebito = criarDebito(data);
-        novoDebito.getParcelas().addAll(debitoParcelaService.criarListaParcelas(novoDebito, data.getParcelasDTO()));
+        novoDebito.getParcelas().addAll(debitoParcelaService.criarParcelas(novoDebito, data.getParcelasDTO()));
         novoDebito.validarDebito();
         debitoParcelaService.validarParcelas(novoDebito.getParcelas());
         salvarDebito(novoDebito);
-        debitoParcelaService.salvarListaParcelas(novoDebito.getParcelas());
+        debitoParcelaService.salvarParcelas(novoDebito.getParcelas());
         return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
     }
 }

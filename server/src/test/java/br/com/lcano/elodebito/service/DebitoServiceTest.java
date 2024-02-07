@@ -111,7 +111,7 @@ public class DebitoServiceTest {
 
 
     @Test
-    public void testAdicionarNovoDebito() {
+    public void testGerarDebito() {
         List<NovoDebitoParcelaDTO> parcelasDTO = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             NovoDebitoParcelaDTO novaParcelaDTO = new NovoDebitoParcelaDTO();
@@ -134,7 +134,7 @@ public class DebitoServiceTest {
 
         when(pessoaService.getPessoaById(pessoa.getId())).thenReturn(pessoa);
 
-        ResponseEntity<Object> response = debitoService.adicionarNovoDebito(novoDebitoDTO);
+        ResponseEntity<Object> response = debitoService.gerarDebito(novoDebitoDTO);
 
         verify(debitoRepository, times(1)).save(any(Debito.class));
         assertEquals(HttpStatus.OK, response.getStatusCode());

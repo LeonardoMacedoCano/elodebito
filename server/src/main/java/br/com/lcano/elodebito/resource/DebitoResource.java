@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("debito")
+@RequestMapping("/api/debitos")
 public class DebitoResource {
     private final DebitoService debitoService;
 
@@ -17,18 +17,18 @@ public class DebitoResource {
         this.debitoService = debitoService;
     }
 
-    @GetMapping("getAll")
+    @GetMapping
     public ResponseEntity<Page<DebitoDTO>> getAllDebitos(Pageable pageable) {
         return ResponseEntity.ok(this.debitoService.getAllDebitos(pageable));
     }
 
-    @GetMapping("/{idDebito}/getById")
-    public ResponseEntity<DebitoDTO> getDebitoById(@PathVariable("idDebito") Long idDebito) {
+    @GetMapping("/{id}")
+    public ResponseEntity<DebitoDTO> getDebitoById(@PathVariable("id") Long idDebito) {
         return ResponseEntity.ok(DebitoDTO.converterParaDTO(this.debitoService.getDebitoById(idDebito)));
     }
 
-    @PostMapping("adicionar")
-    public ResponseEntity<Object> adicionarDebito(@RequestBody NovoDebitoDTO data) {
-        return debitoService.adicionarNovoDebito(data);
+    @PostMapping
+    public ResponseEntity<Object> gerarDebito(@RequestBody NovoDebitoDTO data) {
+        return debitoService.gerarDebito(data);
     }
 }

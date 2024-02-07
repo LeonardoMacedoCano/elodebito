@@ -41,7 +41,7 @@ public class Debito implements Serializable {
         }
     }
 
-    private void validarParcelas() {
+    private void validarQuantidadeParcelas() {
         if (this.parcelas.isEmpty()) {
             throw new CustomException.DebitoQuantidadeParcelasInvalidasException();
         }
@@ -50,6 +50,6 @@ public class Debito implements Serializable {
     public void validarDebito() {
         this.pessoa.validarPessoa();
         this.validarDataLancamento();
-        this.validarParcelas();
+        this.validarQuantidadeParcelas();
     }
 }

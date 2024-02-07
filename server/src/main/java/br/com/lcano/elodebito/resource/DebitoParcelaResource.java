@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("parcela")
+@RequestMapping("/api/parcelas")
 public class DebitoParcelaResource {
     private final DebitoParcelaService debitoParcelaService;
     private final DebitoService debitoService;
@@ -18,13 +18,13 @@ public class DebitoParcelaResource {
         this.debitoService = debitoService;
     }
 
-    @PostMapping(path = "/{idDebito}/adicionar")
-    public ResponseEntity<Object> adicionarParcelas(@PathVariable("idDebito") Long idDebito, @RequestBody List<NovoDebitoParcelaDTO> data) {
-        return debitoParcelaService.adicionarNovasParcelasAoDebito(debitoService.getDebitoById(idDebito), data);
-    }
-
-    @GetMapping("getValorTotalParcelas")
+    @GetMapping("/valor-total")
     public ResponseEntity<Object> getValorTotalParcelas() {
         return debitoParcelaService.getValorTotalParcelas();
+    }
+
+    @PostMapping("/{idDebito}")
+    public ResponseEntity<Object> gerarParcelas(@PathVariable("idDebito") Long idDebito, @RequestBody List<NovoDebitoParcelaDTO> data) {
+        return debitoParcelaService.gerarParcelas(debitoService.getDebitoById(idDebito), data);
     }
 }

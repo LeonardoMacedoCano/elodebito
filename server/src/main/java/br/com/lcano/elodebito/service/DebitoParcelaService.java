@@ -26,7 +26,7 @@ public class DebitoParcelaService {
         debitoParcelaRepository.save(parcela);
     }
 
-    public void salvarListaParcelas(List<DebitoParcela> parcelas) {
+    public void salvarParcelas(List<DebitoParcela> parcelas) {
         debitoParcelaRepository.saveAll(parcelas);
     }
 
@@ -40,15 +40,15 @@ public class DebitoParcelaService {
         return novaParcela;
     }
 
-    public List<DebitoParcela> criarListaParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
+    public List<DebitoParcela> criarParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
         return parcelasDTO.stream()
             .map(parcelaDTO -> criarParcela(parcelaDTO, debito))
             .collect(Collectors.toList());
     }
 
     @Transactional
-    public ResponseEntity<Object> adicionarNovasParcelasAoDebito(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
-        salvarListaParcelas(criarListaParcelas(debito, parcelasDTO));
+    public ResponseEntity<Object> gerarParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
+        salvarParcelas(criarParcelas(debito, parcelasDTO));
         return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_ADICIONADO_COM_SUCESSO);
     }
 
