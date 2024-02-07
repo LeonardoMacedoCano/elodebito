@@ -3,6 +3,8 @@ package br.com.lcano.elodebito.resource;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.service.DebitoService;
+import br.com.lcano.elodebito.util.CustomSuccess;
+import br.com.lcano.elodebito.util.MensagemUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +32,11 @@ public class DebitoResource {
     @PostMapping
     public ResponseEntity<Object> gerarDebito(@RequestBody NovoDebitoDTO data) {
         return debitoService.gerarDebito(data);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletarDebito(@PathVariable("id") Long idDebito) {
+        debitoService.deletarDebito(this.debitoService.getDebitoById(idDebito));
+        return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_DELETADO_COM_SUCESSO);
     }
 }

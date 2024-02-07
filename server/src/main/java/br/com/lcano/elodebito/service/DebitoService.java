@@ -33,6 +33,10 @@ public class DebitoService {
         debitoRepository.save(debito);
     }
 
+    public void deletarDebito(Debito debito) {
+        debitoRepository.delete(debito);
+    }
+
     public Debito criarDebito(NovoDebitoDTO data) {
         Debito novoDebito = new Debito();
         novoDebito.setPessoa(pessoaService.getPessoaById(data.getIdPessoa()));

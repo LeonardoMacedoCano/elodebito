@@ -61,6 +61,13 @@ public class DebitoServiceTest {
     }
 
     @Test
+    void testDeletarDebito() {
+        Debito debito = new Debito();
+        debitoService.deletarDebito(debito);
+        verify(debitoRepository, times(1)).delete(debito);
+    }
+
+    @Test
     void testCriarDebito() {
         Long idPessoa = anyLong();
         Pessoa pessoa = new Pessoa();

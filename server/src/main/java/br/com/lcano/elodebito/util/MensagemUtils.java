@@ -13,5 +13,6 @@ public class MensagemUtils {
     public static final String PARCELA_VALOR_INVALIDO = "Valor da parcela inválido.";
 
     public static final String DEBITO_ADICIONADO_COM_SUCESSO = "Débito adicionado com sucesso.";
+    public static final String DEBITO_DELETADO_COM_SUCESSO = "Débito deletado com sucesso.";
     public static final String PARCELA_ADICIONADO_COM_SUCESSO = "Parcela adicionada com sucesso.";
 }
