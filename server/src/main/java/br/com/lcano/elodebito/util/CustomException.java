@@ -37,6 +37,12 @@ public class CustomException extends RuntimeException {
         }
     }
 
+    public static class ParcelaNaoEncontradaComIdException extends RuntimeException {
+        public ParcelaNaoEncontradaComIdException(Long IDParcela) {
+            super(String.format(MensagemUtils.PARCELA_NAO_ENCONTRADA_COM_ID, IDParcela));
+        }
+    }
+
     public static class ParcelaNumeroInvalidoDebitoException extends RuntimeException {
         public ParcelaNumeroInvalidoDebitoException() {
             super(String.format(MensagemUtils.PARCELA_NUMERO_INVALIDO_DEBITO));

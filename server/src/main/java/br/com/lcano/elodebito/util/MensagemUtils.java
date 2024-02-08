@@ -8,6 +8,7 @@ public class MensagemUtils {
     public static final String DEBITO_NAO_ENCONTRADA_COM_ID = "Débito não encontrada com o id: %d.";
     public static final String DEBITO_DATA_LANCAMENTO_INVALIDO = "Data de lançamento do débito inválido.";
     public static final String DEBITO_QUANTIDADE_PARCELAS_INVALIDAS = "Quantidade de parcelas inválidas do débito.";
+    public static final String PARCELA_NAO_ENCONTRADA_COM_ID = "Parcela não encontrada com o id: %d.";
     public static final String PARCELA_NUMERO_INVALIDO_DEBITO = "Número da parcela deve ser único por débito.";
     public static final String PARCELA_DATA_VENCIMENTO_INVALIDO = "Data de vencimento da parcela inválido.";
     public static final String PARCELA_VALOR_INVALIDO = "Valor da parcela inválido.";
@@ -15,4 +16,5 @@ public class MensagemUtils {
     public static final String DEBITO_ADICIONADO_COM_SUCESSO = "Débito adicionado com sucesso.";
     public static final String DEBITO_DELETADO_COM_SUCESSO = "Débito deletado com sucesso.";
     public static final String PARCELA_ADICIONADO_COM_SUCESSO = "Parcela adicionada com sucesso.";
+    public static final String PARCELA_DATA_VENCIMENTO_ATUALIZADA_COM_SUCESSO = "Data de vencimento da parcela atualizada com sucesso.";
 }
