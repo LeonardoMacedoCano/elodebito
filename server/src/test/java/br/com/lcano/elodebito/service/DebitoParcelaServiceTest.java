@@ -2,6 +2,7 @@ package br.com.lcano.elodebito.service;
 
 import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.domain.DebitoParcela;
+import br.com.lcano.elodebito.dto.NovaDataVencimentoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -52,6 +52,19 @@ class DebitoParcelaServiceTest {
         List<DebitoParcela> parcelas = Arrays.asList(new DebitoParcela(), new DebitoParcela(), new DebitoParcela());
         debitoParcelaService.salvarParcelas(parcelas);
         verify(debitoParcelaRepository, times(1)).saveAll(any());
+    }
+
+    @Test
+    void testGetDebitoById() {
+        Long id = 1L;
+        DebitoParcela debitoMock = new DebitoParcela();
+        debitoMock.setId(id);
+
+        when(debitoParcelaRepository.findById(id)).thenReturn(Optional.of(debitoMock));
+
+        DebitoParcela parcela = debitoParcelaService.getParcelaById(id);
+
+        assertEquals(id, parcela.getId());
     }
 
     @Test
@@ -116,4 +129,38 @@ class DebitoParcelaServiceTest {
 
         assertEquals(ResponseEntity.ok(valorTotalEsperado), responseEntity);
     }
+
+    @Test
+    public void testAlterarDataVencimentoParcelas() {
+        List<NovaDataVencimentoDTO> listaNovaDataVencimento = new ArrayList<>();
+
+        NovaDataVencimentoDTO dto1 = new NovaDataVencimentoDTO();
+        dto1.setIdParcela(1L);
+        dto1.setDataVencimento(new Date());
+
+        NovaDataVencimentoDTO dto2 = new NovaDataVencimentoDTO();
+        dto2.setIdParcela(2L);
+        dto2.setDataVencimento(new Date());
+
+        listaNovaDataVencimento.add(dto1);
+        listaNovaDataVencimento.add(dto2);
+
+        DebitoParcela parcela1 = new DebitoParcela();
+        parcela1.setId(1L);
+        DebitoParcela parcela2 = new DebitoParcela();
+        parcela2.setId(2L);
+
+        when(debitoParcelaRepository.findById(1L)).thenReturn(Optional.of(parcela1));
+        when(debitoParcelaRepository.findById(2L)).thenReturn(Optional.of(parcela2));
+
+        ResponseEntity<Object> responseEntity = debitoParcelaService.alterarDataVencimentoParcelas(listaNovaDataVencimento);
+
+        verify(debitoParcelaRepository, times(1)).save(parcela1);
+        verify(debitoParcelaRepository, times(1)).save(parcela2);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(dto1.getDataVencimento(), parcela1.getDataVencimento());
+        assertEquals(dto2.getDataVencimento(), parcela2.getDataVencimento());
+    }
+
 }

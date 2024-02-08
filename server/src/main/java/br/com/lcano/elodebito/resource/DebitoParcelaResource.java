@@ -1,5 +1,6 @@
 package br.com.lcano.elodebito.resource;
 
+import br.com.lcano.elodebito.dto.NovaDataVencimentoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.service.DebitoParcelaService;
 import br.com.lcano.elodebito.service.DebitoService;
@@ -26,5 +27,10 @@ public class DebitoParcelaResource {
     @PostMapping("/{idDebito}")
     public ResponseEntity<Object> gerarParcelas(@PathVariable("idDebito") Long idDebito, @RequestBody List<NovoDebitoParcelaDTO> data) {
         return debitoParcelaService.gerarParcelas(debitoService.getDebitoById(idDebito), data);
+    }
+
+    @PutMapping("/data-vencimento")
+    public ResponseEntity<Object> alterarDataVencimentoParcelas(@RequestBody List<NovaDataVencimentoDTO> listaNovaDataVencimento) {
+        return debitoParcelaService.alterarDataVencimentoParcelas(listaNovaDataVencimento);
     }
 }

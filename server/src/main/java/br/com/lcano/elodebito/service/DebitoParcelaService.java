@@ -2,8 +2,10 @@ package br.com.lcano.elodebito.service;
 
 import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.domain.DebitoParcela;
+import br.com.lcano.elodebito.dto.NovaDataVencimentoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
+import br.com.lcano.elodebito.util.CustomException;
 import br.com.lcano.elodebito.util.CustomSuccess;
 import br.com.lcano.elodebito.util.MensagemUtils;
 import jakarta.transaction.Transactional;
@@ -28,6 +30,11 @@ public class DebitoParcelaService {
 
     public void salvarParcelas(List<DebitoParcela> parcelas) {
         debitoParcelaRepository.saveAll(parcelas);
+    }
+
+    public DebitoParcela getParcelaById(Long id) {
+        return debitoParcelaRepository.findById(id)
+                .orElseThrow(() -> new CustomException.ParcelaNaoEncontradaComIdException(id));
     }
 
     public DebitoParcela criarParcela(NovoDebitoParcelaDTO data, Debito debito) {
@@ -58,5 +65,15 @@ public class DebitoParcelaService {
 
     public ResponseEntity<Object> getValorTotalParcelas() {
         return ResponseEntity.ok(debitoParcelaRepository.getValorTotalParcelas());
+    }
+
+    @Transactional
+    public ResponseEntity<Object> alterarDataVencimentoParcelas(List<NovaDataVencimentoDTO> listaNovaDataVencimento) {
+        for (NovaDataVencimentoDTO novaDataVencimentoDTO : listaNovaDataVencimento) {
+            DebitoParcela parcela = this.getParcelaById(novaDataVencimentoDTO.getIdParcela());
+            parcela.setDataVencimento(novaDataVencimentoDTO.getDataVencimento());
+            salvarParcela(parcela);
+        }
+        return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_DATA_VENCIMENTO_ATUALIZADA_COM_SUCESSO);
     }
 }
