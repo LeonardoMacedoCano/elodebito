@@ -16,8 +16,4 @@ public class PessoaDTO {
         dto.setNome(entity.getNome());
         return dto;
     }
-
-    public Pessoa converterParaEntidade() {
-        return new Pessoa(this.getId(), this.getCpf(), this.getNome());
-    }
 }
