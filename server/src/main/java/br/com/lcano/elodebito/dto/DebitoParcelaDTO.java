@@ -40,13 +40,4 @@ public class DebitoParcelaDTO {
         }
         return dto;
     }
-
-    public DebitoParcela converterParaEntidade() {
-        return new DebitoParcela(this.getId(),
-                this.getNumero(),
-                this.getDataVencimento(),
-                this.getValor(),
-                this.getSituacao(),
-                this.getDebito());
-    }
 }
