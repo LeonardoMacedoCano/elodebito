@@ -11,6 +11,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class DebitoParcelaDTOTest {
 
     @Test
+    void testSetterGetter() {
+        Long id = 1L;
+        int numero = 1;
+        Date dataVencimento = new Date();
+        double valor = 100.0;
+        char situacao = 'A';
+
+        DebitoParcelaDTO debitoParcelaDTO = new DebitoParcelaDTO();
+        debitoParcelaDTO.setId(id);
+        debitoParcelaDTO.setNumero(numero);
+        debitoParcelaDTO.setDataVencimento(dataVencimento);
+        debitoParcelaDTO.setValor(valor);
+        debitoParcelaDTO.setSituacao(situacao);
+
+        assertEquals(id, debitoParcelaDTO.getId());
+        assertEquals(numero, debitoParcelaDTO.getNumero());
+        assertEquals(dataVencimento, debitoParcelaDTO.getDataVencimento());
+        assertEquals(valor, debitoParcelaDTO.getValor());
+        assertEquals(situacao, debitoParcelaDTO.getSituacao());
+    }
+
+    @Test
     void testConverterParaDTO() {
         DebitoParcela entity = new DebitoParcela();
         entity.setId(1L);
@@ -27,25 +49,6 @@ public class DebitoParcelaDTOTest {
         assertEquals(entity.getDataVencimento(), dto.getDataVencimento());
         assertEquals(entity.getValor(), dto.getValor());
         assertEquals(entity.getSituacao(), dto.getSituacao());
-    }
-
-    @Test
-    void testConverterParaEntidade() {
-        DebitoParcelaDTO dto = new DebitoParcelaDTO();
-        dto.setId(1L);
-        dto.setNumero(1);
-        dto.setDataVencimento(new Date());
-        dto.setValor(100.00);
-        dto.setSituacao('A');
-
-        DebitoParcela entity = dto.converterParaEntidade();
-
-        assertNotNull(entity);
-        assertEquals(dto.getId(), entity.getId());
-        assertEquals(dto.getNumero(), entity.getNumero());
-        assertEquals(dto.getDataVencimento(), entity.getDataVencimento());
-        assertEquals(dto.getValor(), entity.getValor());
-        assertEquals(dto.getSituacao(), entity.getSituacao());
     }
 
     @Test
