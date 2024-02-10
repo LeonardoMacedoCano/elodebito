@@ -6,11 +6,8 @@ import br.com.lcano.elodebito.dto.NovaDataVencimentoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.util.CustomException;
-import br.com.lcano.elodebito.util.CustomSuccess;
-import br.com.lcano.elodebito.util.MensagemUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,26 +51,24 @@ public class DebitoParcelaService {
     }
 
     @Transactional
-    public ResponseEntity<Object> gerarParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
+    public void gerarParcelas(Debito debito, List<NovoDebitoParcelaDTO> parcelasDTO) {
         salvarParcelas(criarParcelas(debito, parcelasDTO));
-        return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_ADICIONADO_COM_SUCESSO);
     }
 
     public void validarParcelas(List<DebitoParcela> parcelas) {
         parcelas.forEach(debitoParcela -> debitoParcela.validarParcela(debitoParcelaRepository));
     }
 
-    public ResponseEntity<Object> getValorTotalParcelas() {
-        return ResponseEntity.ok(debitoParcelaRepository.getValorTotalParcelas());
+    public Double getValorTotalParcelas() {
+        return debitoParcelaRepository.getValorTotalParcelas();
     }
 
     @Transactional
-    public ResponseEntity<Object> alterarDataVencimentoParcelas(List<NovaDataVencimentoDTO> listaNovaDataVencimento) {
+    public void alterarDataVencimentoParcelas(List<NovaDataVencimentoDTO> listaNovaDataVencimento) {
         for (NovaDataVencimentoDTO novaDataVencimentoDTO : listaNovaDataVencimento) {
             DebitoParcela parcela = this.getParcelaById(novaDataVencimentoDTO.getIdParcela());
             parcela.setDataVencimento(novaDataVencimentoDTO.getDataVencimento());
             salvarParcela(parcela);
         }
-        return CustomSuccess.buildResponseEntity(MensagemUtils.PARCELA_DATA_VENCIMENTO_ATUALIZADA_COM_SUCESSO);
     }
 }

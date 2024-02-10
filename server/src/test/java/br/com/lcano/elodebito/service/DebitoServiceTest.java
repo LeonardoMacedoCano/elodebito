@@ -9,7 +9,6 @@ import br.com.lcano.elodebito.repository.DebitoCustomRepository;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.repository.DebitoRepository;
 import br.com.lcano.elodebito.util.DateUtils;
-import br.com.lcano.elodebito.util.MensagemUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,8 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -171,11 +168,9 @@ public class DebitoServiceTest {
 
         when(pessoaService.getPessoaById(pessoa.getId())).thenReturn(pessoa);
 
-        ResponseEntity<Object> response = debitoService.gerarDebito(novoDebitoDTO);
+        debitoService.gerarDebito(novoDebitoDTO);
 
         verify(debitoRepository, times(1)).save(any(Debito.class));
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(Map.of("success", MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO), response.getBody());
         verify(debitoParcelaRepository, times(1)).saveAll(anyIterable());
     }
 }

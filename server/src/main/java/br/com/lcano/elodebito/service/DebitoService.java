@@ -6,13 +6,10 @@ import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.repository.DebitoRepository;
 import br.com.lcano.elodebito.repository.DebitoCustomRepository;
 import br.com.lcano.elodebito.util.CustomException;
-import br.com.lcano.elodebito.util.CustomSuccess;
-import br.com.lcano.elodebito.util.MensagemUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -67,13 +64,12 @@ public class DebitoService {
     }
 
     @Transactional
-    public ResponseEntity<Object> gerarDebito(NovoDebitoDTO data) {
+    public void gerarDebito(NovoDebitoDTO data) {
         Debito novoDebito = criarDebito(data);
         novoDebito.getParcelas().addAll(debitoParcelaService.criarParcelas(novoDebito, data.getParcelasDTO()));
         novoDebito.validarDebito();
         debitoParcelaService.validarParcelas(novoDebito.getParcelas());
         salvarDebito(novoDebito);
         debitoParcelaService.salvarParcelas(novoDebito.getParcelas());
-        return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
     }
 }

@@ -42,7 +42,8 @@ public class DebitoResource {
 
     @PostMapping
     public ResponseEntity<Object> gerarDebito(@RequestBody NovoDebitoDTO data) {
-        return debitoService.gerarDebito(data);
+        debitoService.gerarDebito(data);
+        return CustomSuccess.buildResponseEntity(MensagemUtils.DEBITO_ADICIONADO_COM_SUCESSO);
     }
 
     @DeleteMapping("/{id}")

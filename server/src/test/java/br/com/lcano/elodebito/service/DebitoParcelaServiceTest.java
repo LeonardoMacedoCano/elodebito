@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -125,9 +123,9 @@ class DebitoParcelaServiceTest {
         double valorTotalEsperado = 500.0;
         when(debitoParcelaRepository.getValorTotalParcelas()).thenReturn(valorTotalEsperado);
 
-        ResponseEntity<Object> responseEntity = debitoParcelaService.getValorTotalParcelas();
+        double valorTotal = debitoParcelaService.getValorTotalParcelas();
 
-        assertEquals(ResponseEntity.ok(valorTotalEsperado), responseEntity);
+        assertEquals(valorTotalEsperado, valorTotal);
     }
 
     @Test
@@ -153,12 +151,11 @@ class DebitoParcelaServiceTest {
         when(debitoParcelaRepository.findById(1L)).thenReturn(Optional.of(parcela1));
         when(debitoParcelaRepository.findById(2L)).thenReturn(Optional.of(parcela2));
 
-        ResponseEntity<Object> responseEntity = debitoParcelaService.alterarDataVencimentoParcelas(listaNovaDataVencimento);
+        debitoParcelaService.alterarDataVencimentoParcelas(listaNovaDataVencimento);
 
         verify(debitoParcelaRepository, times(1)).save(parcela1);
         verify(debitoParcelaRepository, times(1)).save(parcela2);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(dto1.getDataVencimento(), parcela1.getDataVencimento());
         assertEquals(dto2.getDataVencimento(), parcela2.getDataVencimento());
     }
