@@ -4,6 +4,7 @@ import br.com.lcano.elodebito.domain.Debito;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.repository.DebitoRepository;
+import br.com.lcano.elodebito.repository.DebitoCustomRepository;
 import br.com.lcano.elodebito.util.CustomException;
 import br.com.lcano.elodebito.util.CustomSuccess;
 import br.com.lcano.elodebito.util.MensagemUtils;
@@ -13,18 +14,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class DebitoService {
     private final DebitoRepository debitoRepository;
+    private final DebitoCustomRepository debitoCustomRepository;
     private  final DebitoParcelaService debitoParcelaService;
     private final PessoaService pessoaService;
 
     @Autowired
     public DebitoService(DebitoRepository debitoRepository,
+                         DebitoCustomRepository debitoCustomRepository,
                          DebitoParcelaService debitoParcelaService,
                          PessoaService pessoaService) {
         this.debitoRepository = debitoRepository;
+        this.debitoCustomRepository = debitoCustomRepository;
         this.debitoParcelaService = debitoParcelaService;
         this.pessoaService = pessoaService;
     }
@@ -51,6 +56,14 @@ public class DebitoService {
 
     public Page<DebitoDTO> getAllDebitos(Pageable pageable) {
         return this.debitoRepository.findAll(pageable).map(DebitoDTO::converterParaDTO);
+    }
+
+    public Page<DebitoDTO> findCustomAllDebitos(
+            @RequestParam(required = false) java.sql.Date dataLancamento,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String nomePessoa,
+            Pageable pageable) {
+        return debitoCustomRepository.find(dataLancamento, cpf, nomePessoa, pageable).map(DebitoDTO::converterParaDTO);
     }
 
     @Transactional

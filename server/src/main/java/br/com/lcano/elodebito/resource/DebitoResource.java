@@ -20,8 +20,19 @@ public class DebitoResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DebitoDTO>> getAllDebitos(Pageable pageable) {
-        return ResponseEntity.ok(this.debitoService.getAllDebitos(pageable));
+    public ResponseEntity<Page<DebitoDTO>> getAllDebitos(
+            @RequestParam(required = false) java.sql.Date dataLancamento,
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String nomePessoa,
+            Pageable pageable
+    ) {
+        Page<DebitoDTO> debitos;
+        if (dataLancamento != null || cpf != null || nomePessoa != null) {
+            debitos = debitoService.findCustomAllDebitos(dataLancamento, cpf, nomePessoa, pageable);
+        } else {
+            debitos = debitoService.getAllDebitos(pageable);
+        }
+        return ResponseEntity.ok(debitos);
     }
 
     @GetMapping("/{id}")

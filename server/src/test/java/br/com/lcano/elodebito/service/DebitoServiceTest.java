@@ -5,6 +5,7 @@ import br.com.lcano.elodebito.domain.Pessoa;
 import br.com.lcano.elodebito.dto.DebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoDTO;
 import br.com.lcano.elodebito.dto.NovoDebitoParcelaDTO;
+import br.com.lcano.elodebito.repository.DebitoCustomRepository;
 import br.com.lcano.elodebito.repository.DebitoParcelaRepository;
 import br.com.lcano.elodebito.repository.DebitoRepository;
 import br.com.lcano.elodebito.util.DateUtils;
@@ -16,17 +17,22 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class DebitoServiceTest {
     @Mock
     private DebitoRepository debitoRepository;
+
+    @Mock
+    private DebitoCustomRepository debitoCustomRepository;
 
     @Mock
     private DebitoParcelaRepository debitoParcelaRepository;
@@ -43,7 +49,7 @@ public class DebitoServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        debitoService = new DebitoService(debitoRepository, debitoParcelaService, pessoaService);
+        debitoService = new DebitoService(debitoRepository, debitoCustomRepository, debitoParcelaService, pessoaService);
     }
 
     private NovoDebitoDTO criarNovoDebitoDTO(Long idPessoa, Date dataLancamento) {
@@ -114,6 +120,30 @@ public class DebitoServiceTest {
         when(debitoRepository.findAll(pageable)).thenReturn(pageDebitos);
         Page<DebitoDTO> debitoDTOPage = debitoService.getAllDebitos(pageable);
         assertEquals(debitos.size(), debitoDTOPage.getContent().size());
+    }
+
+    @Test
+    public void testFindCustomAllDebitos() {
+        java.util.Date dataLancamento = new java.util.Date();
+        String cpf = "12345678901";
+        String nomePessoa = "João da Silva";
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Pessoa pessoa = new Pessoa(1L, cpf, nomePessoa);
+        Debito debito1 = new Debito(1L, pessoa, dataLancamento, new ArrayList<>());
+        Debito debito2 = new Debito(2L, pessoa, dataLancamento, new ArrayList<>());
+
+        List<Debito> listaDebitos = Arrays.asList(debito1, debito2);
+        Page<Debito> paginaDebitos = new PageImpl<>(listaDebitos, pageable, listaDebitos.size());
+
+        when(debitoCustomRepository.find(any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable))).thenReturn(paginaDebitos);
+
+        Page<DebitoDTO> resultado = debitoService.findCustomAllDebitos(new java.sql.Date(dataLancamento.getTime()), cpf, nomePessoa, pageable);
+
+        verify(debitoCustomRepository).find(any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable));
+
+        assertNotNull(resultado);
+        assertEquals(listaDebitos.size(), resultado.getContent().size());
     }
 
 
