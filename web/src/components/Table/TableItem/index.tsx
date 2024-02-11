@@ -16,7 +16,7 @@ export function TableItem<T extends Record<string, any>>({
   const columns = Object.keys(item);
 
   return (
-    <C.TableLine isSelected={isSelecionado} onClick={onClick}>
+    <C.TableLine $isSelected={isSelecionado} onClick={onClick}>
       {columns.map((column, index) => (
         <C.TableColumn key={index}>
           {colunasFormat[column as keyof T]
