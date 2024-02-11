@@ -3,7 +3,7 @@ import { Container, Content, LinkContainer } from './styles';
 import SidebarItem from '../SidebarItem';
 import {
   FaTimes,
-  FaHome,
+  FaHome
 } from 'react-icons/fa';
 
 interface SidebarProps {
@@ -23,6 +23,9 @@ const Sidebar: FC<SidebarProps> = ({ sidebar, setSidebar }) => {
       <Content onClick={closeSidebar}>
         <LinkContainer to="/">
           <SidebarItem Icon={FaHome} Text="Home" />
+        </LinkContainer>
+        <LinkContainer to="/consulta-debitos">
+          <SidebarItem Icon={FaHome} Text="Debitos" />
         </LinkContainer>
       </Content>
     </Container>
