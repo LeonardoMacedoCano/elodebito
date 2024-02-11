@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useMensagem } from '../providers/MensagemProvider';
+import { Debito } from '../types/Debito';
 
 interface ApiResponse {
   success?: string;
@@ -30,25 +31,23 @@ const useApi = () => {
   const request = async <T>(
     method: 'get' | 'post' | 'put' | 'delete',
     url: string,
-    token?: string,
     data?: Record<string, any>
   ): Promise<T | undefined> => {
     try {
-      const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
       let response: AxiosResponse<ApiResponse>;
 
       switch (method) {
         case 'get':
-          response = await api.get(url, { headers });
+          response = await api.get(url);
           break;
         case 'post':
-          response = await api.post(url, data, { headers });
+          response = await api.post(url, data);
           break;
         case 'put':
-          response = await api.put(url, data, { headers });
+          response = await api.put(url, data);
           break;
         case 'delete':
-          response = await api.delete(url, { headers });
+          response = await api.delete(url);
           break;
         default:
           throw `Método ${method} não configurado.`;
@@ -63,6 +62,8 @@ const useApi = () => {
   };
 
   return {
+    findDebitos: async () =>
+      request<{ content: Debito[] }>('get', `/api/debitos`).then(response => response?.content),
   };
 };
 
