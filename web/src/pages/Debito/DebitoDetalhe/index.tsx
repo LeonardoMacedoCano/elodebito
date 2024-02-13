@@ -4,11 +4,15 @@ import { useEffect, useState } from 'react';
 import { Debito } from '../../../types/Debito';
 import * as C from './styles';
 import { formatarData } from '../../../utils/DateUtils';
+import { TableArea } from '../../../components/Table/TableArea';
+import { ParcelaColunasFormat } from '../TableConfig/ParcelaColunasFormat';
+import { ParcelaColunasConfig } from '../TableConfig/ParcelaColunasConfig';
 
 const DebitoDetalhe = () => {
   const { idDebito: idDebitoParam } = useParams<{ idDebito: string }>();
   const idDebitoSelecionado = idDebitoParam ? parseInt(idDebitoParam) : null;
   const [debito, setDebito] = useState<Debito>(); 
+  const [idParcelaSelecionada, setIdParcelaSelecionada] = useState<number | null>(null);
   const api = useApi();
 
   useEffect(() => {
@@ -30,6 +34,10 @@ const DebitoDetalhe = () => {
     const valorParcela = parcela.valor;
     return isNaN(valorParcela) ? total : total + valorParcela;
   }, 0);
+
+  const handleItemClick = (id: number | null) => {
+    setIdParcelaSelecionada(id);
+}; 
   
   return (
     <C.Container>
@@ -101,6 +109,14 @@ const DebitoDetalhe = () => {
           </C.Column>
 
         </C.DebitoArea>
+        
+        <TableArea
+          lista={debito?.parcelas ?? []}
+          colunasConfig={ParcelaColunasConfig}
+          colunasFormat={ParcelaColunasFormat}
+          onItemClick={handleItemClick}
+          itemIdSelecionado={idParcelaSelecionada}
+        />
       </C.Body>
     </C.Container>
   );
