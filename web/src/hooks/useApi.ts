@@ -65,6 +65,8 @@ const useApi = () => {
     findDebitos: async (page: number, size: number, dtLancInicio: string, dtLancFim: string, cpf: string, nomePessoa: string) =>
       request<{ content: Debito[] }>('get', 
       `/api/debitos?page=${page}&size=${size}&dataLancamentoInicio=${dtLancInicio}&dataLancamentoFim=${dtLancFim}&cpf=${cpf}&nomePessoa=${nomePessoa}`).then(response => response?.content),
+    findDebitoById: async (idDebito: number) =>
+      request<Debito>('get', `/api/debitos/${idDebito}`),
   };
 };
 
