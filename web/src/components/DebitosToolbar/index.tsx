@@ -6,6 +6,7 @@ type Props = {
     filtroDataFim: string;
     filtroNomePessoa: string;
     filtroCpfPessoa: string;
+    idSelecionado: number | null;
     onFiltroDataInicioChange: (value: Date) => void;
     onFiltroDataFimChange: (value: Date) => void;
     onFiltroNomePessoaChange: (value: string) => void;
@@ -17,6 +18,7 @@ export const DebitosToolbar = ({
     filtroDataFim,
     filtroNomePessoa,
     filtroCpfPessoa,
+    idSelecionado,
     onFiltroDataInicioChange,
     onFiltroDataFimChange,
     onFiltroNomePessoaChange,
@@ -37,6 +39,12 @@ export const DebitosToolbar = ({
 
     const handleFiltroCpfPessoaChange = (value: string) => {
         onFiltroCpfPessoaChange(value);
+    };
+
+    const handleGerarDebitoEvent = () => {
+    };
+
+    const handleVisualizarDebitoEvent = () => {
     };
 
     return (
@@ -81,6 +89,18 @@ export const DebitosToolbar = ({
                         value={filtroCpfPessoa}
                         onChange={(e) => handleFiltroCpfPessoaChange(e.target.value)}
                     />
+                </C.SecondRow>
+            </C.Column>
+            <C.Column>
+                <C.FirstRow>
+                    &nbsp;  
+                </C.FirstRow>
+                <C.SecondRow>
+                    {idSelecionado === null ? (
+                        <C.Button onClick={handleGerarDebitoEvent}>Gerar Debito</C.Button>
+                    ) : (
+                        <C.Button onClick={handleVisualizarDebitoEvent}>Visualizar Debito</C.Button>
+                    )}
                 </C.SecondRow>
             </C.Column>
         </C.Container>

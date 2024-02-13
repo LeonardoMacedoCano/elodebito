@@ -67,6 +67,7 @@ const ConsultaDebitos: React.FC = () => {
                     filtroDataFim={dateToString(filtroDataFim)}
                     filtroNomePessoa={filtroNomePessoa}
                     filtroCpfPessoa={filtroCpfPessoa}
+                    idSelecionado={idSelecionado}
                     onFiltroDataInicioChange={handleFiltroDataInicioChange}
                     onFiltroDataFimChange={handleFiltroDataFimChange}
                     onFiltroNomePessoaChange={handleFiltroNomePessoaChange}
