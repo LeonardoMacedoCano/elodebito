@@ -34,17 +34,18 @@ class DebitoResourceTest {
 
     @Test
     void testGetAllDebitos() {
-        java.sql.Date dataLancamento = new java.sql.Date(System.currentTimeMillis());
+        java.sql.Date dataLancamentoInicio = new java.sql.Date(System.currentTimeMillis());
+        java.sql.Date dataLancamentoFim = new java.sql.Date(System.currentTimeMillis());
         String cpf = "12345678901";
         String nomePessoa = "João da Silva";
         Pageable pageable = mock(Pageable.class);
         Page<DebitoDTO> page = new PageImpl<>(Collections.emptyList());
 
-        when(debitoService.findCustomAllDebitos(dataLancamento, cpf, nomePessoa, pageable)).thenReturn(page);
+        when(debitoService.findCustomAllDebitos(dataLancamentoInicio, dataLancamentoFim, cpf, nomePessoa, pageable)).thenReturn(page);
 
-        ResponseEntity<Page<DebitoDTO>> responseEntity = debitoResource.getAllDebitos(dataLancamento, cpf, nomePessoa, pageable);
+        ResponseEntity<Page<DebitoDTO>> responseEntity = debitoResource.getAllDebitos(dataLancamentoInicio, dataLancamentoFim, cpf, nomePessoa, pageable);
         assertEquals(ResponseEntity.ok(page).getStatusCode(), responseEntity.getStatusCode());
-        verify(debitoService, times(1)).findCustomAllDebitos(dataLancamento, cpf, nomePessoa, pageable);
+        verify(debitoService, times(1)).findCustomAllDebitos(dataLancamentoInicio, dataLancamentoFim, cpf, nomePessoa, pageable);
     }
 
     @Test

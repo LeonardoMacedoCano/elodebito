@@ -121,23 +121,24 @@ public class DebitoServiceTest {
 
     @Test
     public void testFindCustomAllDebitos() {
-        java.util.Date dataLancamento = new java.util.Date();
+        java.util.Date dataLancamentoInicio = new java.util.Date();
+        java.util.Date dataLancamentoFim = new java.util.Date();
         String cpf = "12345678901";
         String nomePessoa = "João da Silva";
         Pageable pageable = PageRequest.of(0, 10);
 
         Pessoa pessoa = new Pessoa(1L, cpf, nomePessoa);
-        Debito debito1 = new Debito(1L, pessoa, dataLancamento, new ArrayList<>());
-        Debito debito2 = new Debito(2L, pessoa, dataLancamento, new ArrayList<>());
+        Debito debito1 = new Debito(1L, pessoa, dataLancamentoInicio, new ArrayList<>());
+        Debito debito2 = new Debito(2L, pessoa, dataLancamentoFim, new ArrayList<>());
 
         List<Debito> listaDebitos = Arrays.asList(debito1, debito2);
         Page<Debito> paginaDebitos = new PageImpl<>(listaDebitos, pageable, listaDebitos.size());
 
-        when(debitoCustomRepository.find(any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable))).thenReturn(paginaDebitos);
+        when(debitoCustomRepository.find(any(java.sql.Date.class), any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable))).thenReturn(paginaDebitos);
 
-        Page<DebitoDTO> resultado = debitoService.findCustomAllDebitos(new java.sql.Date(dataLancamento.getTime()), cpf, nomePessoa, pageable);
+        Page<DebitoDTO> resultado = debitoService.findCustomAllDebitos(new java.sql.Date(dataLancamentoInicio.getTime()), new java.sql.Date(dataLancamentoFim.getTime()), cpf, nomePessoa, pageable);
 
-        verify(debitoCustomRepository).find(any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable));
+        verify(debitoCustomRepository).find(any(java.sql.Date.class), any(java.sql.Date.class), eq(cpf), eq(nomePessoa), eq(pageable));
 
         assertNotNull(resultado);
         assertEquals(listaDebitos.size(), resultado.getContent().size());

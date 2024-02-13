@@ -56,11 +56,12 @@ public class DebitoService {
     }
 
     public Page<DebitoDTO> findCustomAllDebitos(
-            @RequestParam(required = false) java.sql.Date dataLancamento,
+            @RequestParam(required = false) java.sql.Date dataLancamentoInicio,
+            @RequestParam(required = false) java.sql.Date dataLancamentoFim,
             @RequestParam(required = false) String cpf,
             @RequestParam(required = false) String nomePessoa,
             Pageable pageable) {
-        return debitoCustomRepository.find(dataLancamento, cpf, nomePessoa, pageable).map(DebitoDTO::converterParaDTO);
+        return debitoCustomRepository.find(dataLancamentoInicio, dataLancamentoFim, cpf, nomePessoa, pageable).map(DebitoDTO::converterParaDTO);
     }
 
     @Transactional

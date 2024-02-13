@@ -20,7 +20,8 @@ public class DebitoCustomRepository {
     }
 
     public Page<Debito> find(
-            @RequestParam(required = false) java.sql.Date dataLancamento,
+            @RequestParam(required = false) java.sql.Date dataLancamentoInicio,
+            @RequestParam(required = false) java.sql.Date dataLancamentoFim,
             @RequestParam(required = false) String cpf,
             @RequestParam(required = false) String nomePessoa,
             Pageable pageable
@@ -28,19 +29,20 @@ public class DebitoCustomRepository {
         String queryStr = "SELECT d FROM Debito d WHERE 1=1 ";
         Map<String, Object> params = new HashMap<>();
 
-        if (dataLancamento != null) {
-            queryStr += "AND Date(d.dataLancamento) = :dataLancamento ";
-            params.put("dataLancamento", dataLancamento);
+        if (dataLancamentoInicio != null && dataLancamentoFim != null) {
+            queryStr += "AND d.dataLancamento BETWEEN :dataInicio AND :dataFim ";
+            params.put("dataInicio", dataLancamentoInicio);
+            params.put("dataFim", dataLancamentoFim);
         }
 
         if (cpf != null && !cpf.isEmpty()) {
-            queryStr += "AND d.pessoa.cpf = :cpf ";
-            params.put("cpf", cpf);
+            queryStr += "AND LOWER(d.pessoa.cpf) LIKE LOWER(:cpf) ";
+            params.put("cpf", "%" + cpf.toLowerCase() + "%");
         }
 
         if (nomePessoa != null && !nomePessoa.isEmpty()) {
-            queryStr += "AND d.pessoa.nome = :nomePessoa ";
-            params.put("nomePessoa", nomePessoa);
+            queryStr += "AND LOWER(d.pessoa.nome) LIKE LOWER(:nomePessoa) ";
+            params.put("nomePessoa", "%" + nomePessoa.toLowerCase() + "%");
         }
 
         TypedQuery<Debito> query = entityManager.createQuery(queryStr, Debito.class);

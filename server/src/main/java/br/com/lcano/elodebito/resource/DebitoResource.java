@@ -21,14 +21,15 @@ public class DebitoResource {
 
     @GetMapping
     public ResponseEntity<Page<DebitoDTO>> getAllDebitos(
-            @RequestParam(required = false) java.sql.Date dataLancamento,
+            @RequestParam(required = false) java.sql.Date dataLancamentoInicio,
+            @RequestParam(required = false) java.sql.Date dataLancamentoFim,
             @RequestParam(required = false) String cpf,
             @RequestParam(required = false) String nomePessoa,
             Pageable pageable
     ) {
         Page<DebitoDTO> debitos;
-        if (dataLancamento != null || cpf != null || nomePessoa != null) {
-            debitos = debitoService.findCustomAllDebitos(dataLancamento, cpf, nomePessoa, pageable);
+        if ((dataLancamentoInicio != null && dataLancamentoFim != null) || cpf != null || nomePessoa != null) {
+            debitos = debitoService.findCustomAllDebitos(dataLancamentoInicio, dataLancamentoFim, cpf, nomePessoa, pageable);
         } else {
             debitos = debitoService.getAllDebitos(pageable);
         }
