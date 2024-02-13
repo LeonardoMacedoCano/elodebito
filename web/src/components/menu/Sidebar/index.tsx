@@ -24,6 +24,9 @@ const Sidebar: FC<SidebarProps> = ({ sidebar, setSidebar }) => {
         <LinkContainer to="/">
           <SidebarItem Icon={FaHome} Text="Home" />
         </LinkContainer>
+        <LinkContainer to="/consulta-pessoas">
+          <SidebarItem Icon={FaHome} Text="Pessoas" />
+        </LinkContainer>
         <LinkContainer to="/consulta-debitos">
           <SidebarItem Icon={FaHome} Text="Debitos" />
         </LinkContainer>
