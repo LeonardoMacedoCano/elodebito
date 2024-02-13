@@ -1,8 +1,10 @@
+import { formatarData } from "../../../utils/DateUtils";
+
 export const ConsultaDebitosColunasFormat = {
     id: (value: string | number | boolean | Date): React.ReactNode => String(value),
     dataLancamento: (value: string | number | boolean | Date): React.ReactNode => {
         if (typeof value === 'string') {
-            return new Date(value).toLocaleDateString();
+            return formatarData(value);       
         } else {
             return String(value);
         }

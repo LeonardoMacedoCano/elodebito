@@ -18,3 +18,13 @@ export const getDataAtual = (): Date => {
   const now = new Date();
   return now;
 };
+
+export const formatarData = (dataString: string): string => {
+  const partesData = dataString.split('-');
+
+  const ano = partesData[0];
+  const mes = partesData[1];
+  const dia = partesData[2];
+
+  return `${dia}/${mes}/${ano}`;
+}
