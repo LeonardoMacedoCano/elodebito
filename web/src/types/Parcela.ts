@@ -3,5 +3,4 @@ export type Parcela = {
     numero: number;
     dataVencimento: Date;
     valor: number;
-    situacao: string;  
 }
