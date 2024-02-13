@@ -6,6 +6,7 @@ import MainHeader from './components/menu/MainHeader';
 import { Home } from './pages/Home';
 import { MensagemProvider } from './providers/MensagemProvider';
 import ConsultaDebitos from './pages/Debito/ConsultaDebitos';
+import DebitoDetalhe from './pages/Debito/DebitoDetalhe';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/consulta-debitos" element={<ConsultaDebitos />} />
+            <Route path="/debito-detalhe/:idDebito" element={<DebitoDetalhe />} />
           </Routes>
         </BrowserRouter>
       </MensagemProvider>

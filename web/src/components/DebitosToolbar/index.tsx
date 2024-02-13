@@ -1,4 +1,5 @@
 import { stringToDate } from '../../utils/DateUtils';
+import { Link as RouterLink } from 'react-router-dom';
 import * as C from './styles';
 
 type Props = {
@@ -39,12 +40,6 @@ export const DebitosToolbar = ({
 
     const handleFiltroCpfPessoaChange = (value: string) => {
         onFiltroCpfPessoaChange(value);
-    };
-
-    const handleGerarDebitoEvent = () => {
-    };
-
-    const handleVisualizarDebitoEvent = () => {
     };
 
     return (
@@ -97,9 +92,11 @@ export const DebitosToolbar = ({
                 </C.FirstRow>
                 <C.SecondRow>
                     {idSelecionado === null ? (
-                        <C.Button onClick={handleGerarDebitoEvent}>Gerar Debito</C.Button>
+                        <C.Button>Gerar Debito</C.Button>
                     ) : (
-                        <C.Button onClick={handleVisualizarDebitoEvent}>Visualizar Debito</C.Button>
+                        <RouterLink to={`/debito-detalhe/${idSelecionado}`}>
+                            <C.Button>Visualizar Débito</C.Button>
+                        </RouterLink>
                     )}
                 </C.SecondRow>
             </C.Column>
