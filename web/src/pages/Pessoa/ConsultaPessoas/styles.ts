@@ -28,6 +28,7 @@ export const Column = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
 `;
 
 export const FirstRow = styled.div`

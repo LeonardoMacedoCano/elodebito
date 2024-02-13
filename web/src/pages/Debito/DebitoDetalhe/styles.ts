@@ -62,3 +62,13 @@ export const Input = styled.input`
     border: 1px solid ${props => props.theme.colors.tertiary};
     border-radius: 5px;
 `;
+
+export const Button = styled.button`
+    background-color: ${props => props.theme.colors.tertiary};
+    color: ${props => props.theme.colors.white};
+    width: 100%;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid ${props => props.theme.colors.white};
+    border-radius: 5px;
+`;

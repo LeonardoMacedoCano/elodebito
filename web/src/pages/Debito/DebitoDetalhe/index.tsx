@@ -58,7 +58,7 @@ const DebitoDetalhe = () => {
 
           <C.Column>
               <C.FirstRow>
-                Data Lançamento
+                Data Lanç.
               </C.FirstRow>
               <C.SecondRow>
                 <C.Input
@@ -108,6 +108,18 @@ const DebitoDetalhe = () => {
               </C.SecondRow>
           </C.Column>
 
+          <C.Column>
+                <C.FirstRow>
+                    &nbsp;  
+                </C.FirstRow>
+                <C.SecondRow>
+                    {idParcelaSelecionada === null ? (
+                        <C.Button>Nova Parcela</C.Button>
+                    ) : (
+                        <C.Button>Visualizar Parcela</C.Button>
+                    )}
+                </C.SecondRow>
+            </C.Column>
         </C.DebitoArea>
         
         <TableArea
