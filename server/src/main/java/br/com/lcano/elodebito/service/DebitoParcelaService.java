@@ -40,7 +40,6 @@ public class DebitoParcelaService {
         novaParcela.setNumero(data.getNumero());
         novaParcela.setDataVencimento(data.getDataVencimento());
         novaParcela.setValor(data.getValor());
-        novaParcela.setSituacao(data.getSituacao());
         return novaParcela;
     }
 

@@ -12,17 +12,14 @@ public class NovoDebitoParcelaDTOTest {
         int numero = 1;
         Date dataVencimento = new Date();
         double valor = 100.0;
-        char situacao = 'A';
 
         NovoDebitoParcelaDTO novoDebitoParcelaDTO = new NovoDebitoParcelaDTO();
         novoDebitoParcelaDTO.setNumero(numero);
         novoDebitoParcelaDTO.setDataVencimento(dataVencimento);
         novoDebitoParcelaDTO.setValor(valor);
-        novoDebitoParcelaDTO.setSituacao(situacao);
 
         assertEquals(numero, novoDebitoParcelaDTO.getNumero());
         assertEquals(dataVencimento, novoDebitoParcelaDTO.getDataVencimento());
         assertEquals(valor, novoDebitoParcelaDTO.getValor());
-        assertEquals(situacao, novoDebitoParcelaDTO.getSituacao());
     }
 }

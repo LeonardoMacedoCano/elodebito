@@ -33,13 +33,11 @@ public class DebitoParcelaTest {
         debitoParcela.setNumero(1);
         debitoParcela.setDataVencimento(new Date());
         debitoParcela.setValor(100.00);
-        debitoParcela.setSituacao('A');
 
         assertEquals(1L, debitoParcela.getId());
         assertEquals(1, debitoParcela.getNumero());
         assertNotNull(debitoParcela.getDataVencimento());
         assertEquals(100.00, debitoParcela.getValor());
-        assertEquals('A', debitoParcela.getSituacao());
     }
 
     @Test
@@ -62,7 +60,6 @@ public class DebitoParcelaTest {
         novaParcela.setNumero(1);
         novaParcela.setDataVencimento(new Date());
         novaParcela.setValor(100.00);
-        novaParcela.setSituacao('A');
         novaParcela.setDebito(debito);
 
         assertThrows(CustomException.ParcelaNumeroInvalidoDebitoException.class, () -> novaParcela.validarParcela(debitoParcelaRepository));
@@ -77,7 +74,6 @@ public class DebitoParcelaTest {
         parcela.setNumero(1);
         parcela.setDataVencimento(DataOntem);
         parcela.setValor(100.00);
-        parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
         assertThrows(CustomException.ParcelaDataVencimentoInvalidoException.class, () -> parcela.validarParcela(debitoParcelaRepository));
@@ -90,7 +86,6 @@ public class DebitoParcelaTest {
         parcela.setNumero(2);
         parcela.setDataVencimento(new Date());
         parcela.setValor(-100.00);
-        parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
         assertThrows(CustomException.ParcelaValorInvalidoException.class, () -> parcela.validarParcela(debitoParcelaRepository));
@@ -103,7 +98,6 @@ public class DebitoParcelaTest {
         parcela.setNumero(1);
         parcela.setDataVencimento(new Date());
         parcela.setValor(100.00);
-        parcela.setSituacao('A');
         parcela.setDebito(new Debito());
 
         assertDoesNotThrow(() -> parcela.validarParcela(debitoParcelaRepository));

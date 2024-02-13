@@ -38,7 +38,7 @@ public class DebitoDTOTest {
         entity.setId(1L);
         entity.setPessoa(new Pessoa(1L, "12345678901", "Leopoldo"));
         entity.setDataLancamento(new Date());
-        entity.setParcelas(List.of(new DebitoParcela(1L, 1, new Date(), 10.0, 'A', entity)));
+        entity.setParcelas(List.of(new DebitoParcela(1L, 1, new Date(), 10.0, entity)));
 
         DebitoDTO dto = DebitoDTO.converterParaDTO(entity);
 
@@ -52,6 +52,5 @@ public class DebitoDTOTest {
         assertEquals(entity.getParcelas().get(0).getNumero(), dto.getParcelasDTO().get(0).getNumero());
         assertEquals(entity.getParcelas().get(0).getDataVencimento(), dto.getParcelasDTO().get(0).getDataVencimento());
         assertEquals(entity.getParcelas().get(0).getValor(), dto.getParcelasDTO().get(0).getValor());
-        assertEquals(entity.getParcelas().get(0).getSituacao(), dto.getParcelasDTO().get(0).getSituacao());
     }
 }

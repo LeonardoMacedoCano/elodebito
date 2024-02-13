@@ -8,5 +8,4 @@ public class NovoDebitoParcelaDTO {
     private int numero;
     private Date dataVencimento;
     private double valor;
-    private char situacao;
 }

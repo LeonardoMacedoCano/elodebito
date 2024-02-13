@@ -29,12 +29,11 @@ class DebitoParcelaServiceTest {
         debitoParcelaService = new DebitoParcelaService(debitoParcelaRepository);
     }
 
-    private NovoDebitoParcelaDTO criarNovoDebitoParcelaDTO(int numero, Date dataVencimento, Double valor, char situacao) {
+    private NovoDebitoParcelaDTO criarNovoDebitoParcelaDTO(int numero, Date dataVencimento, Double valor) {
         NovoDebitoParcelaDTO dto = new NovoDebitoParcelaDTO();
         dto.setNumero(numero);
         dto.setDataVencimento(dataVencimento);
         dto.setValor(valor);
-        dto.setSituacao(situacao);
         return dto;
     }
 
@@ -67,14 +66,13 @@ class DebitoParcelaServiceTest {
 
     @Test
     void testCriarParcela() {
-        NovoDebitoParcelaDTO parcelaDTO = criarNovoDebitoParcelaDTO(1, new Date(), 100.0, 'A');
+        NovoDebitoParcelaDTO parcelaDTO = criarNovoDebitoParcelaDTO(1, new Date(), 100.0);
         Debito debito = new Debito();
         DebitoParcela novaParcela = debitoParcelaService.criarParcela(parcelaDTO, debito);
 
         assertEquals(parcelaDTO.getNumero(), novaParcela.getNumero());
         assertEquals(parcelaDTO.getDataVencimento(), novaParcela.getDataVencimento());
         assertEquals(parcelaDTO.getValor(), novaParcela.getValor());
-        assertEquals(parcelaDTO.getSituacao(), novaParcela.getSituacao());
         assertEquals(debito, novaParcela.getDebito());
     }
 
@@ -82,9 +80,9 @@ class DebitoParcelaServiceTest {
     void testCriarParcelas() {
         Debito debito = new Debito();
         List<NovoDebitoParcelaDTO> parcelasDTO = List.of(
-            criarNovoDebitoParcelaDTO(1, new Date(), 33.34, 'B'),
-            criarNovoDebitoParcelaDTO(2, new Date(), 33.33, 'A'),
-            criarNovoDebitoParcelaDTO(3, new Date(), 33.33, 'A')
+            criarNovoDebitoParcelaDTO(1, new Date(), 33.34),
+            criarNovoDebitoParcelaDTO(2, new Date(), 33.33),
+            criarNovoDebitoParcelaDTO(3, new Date(), 33.33)
         );
 
         List<DebitoParcela> parcelas = debitoParcelaService.criarParcelas(debito, parcelasDTO);
@@ -98,7 +96,6 @@ class DebitoParcelaServiceTest {
             assertEquals(dto.getNumero(), parcela.getNumero());
             assertEquals(dto.getDataVencimento(), parcela.getDataVencimento());
             assertEquals(dto.getValor(), parcela.getValor());
-            assertEquals(dto.getSituacao(), parcela.getSituacao());
             assertEquals(debito, parcela.getDebito());
         }
     }

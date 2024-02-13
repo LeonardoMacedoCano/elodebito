@@ -35,9 +35,6 @@ public class DebitoParcela implements Serializable {
     @Column(nullable = false)
     private double valor;
 
-    @Column(nullable = false)
-    private char situacao;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "iddebito")

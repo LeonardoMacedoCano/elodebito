@@ -25,7 +25,7 @@ public class DebitoTest {
         debito.setDataLancamento(new Date());
 
         List<DebitoParcela> parcelas = new ArrayList<>();
-        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, 'A', debito));
+        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, debito));
 
         debito.setParcelas(parcelas);
 
@@ -45,7 +45,7 @@ public class DebitoTest {
         debito.setDataLancamento(DataAmanha);
 
         List<DebitoParcela> parcelas = new ArrayList<>();
-        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, 'A', debito));
+        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, debito));
 
         debito.setParcelas(parcelas);
 
@@ -71,7 +71,7 @@ public class DebitoTest {
         debito.setDataLancamento(DateUtils.getDataAtual());
 
         List<DebitoParcela> parcelas = new ArrayList<>();
-        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, 'A', debito));
+        parcelas.add(new DebitoParcela(1L, 1, DateUtils.getDataAtual(), 10.0, debito));
 
         debito.setParcelas(parcelas);
 

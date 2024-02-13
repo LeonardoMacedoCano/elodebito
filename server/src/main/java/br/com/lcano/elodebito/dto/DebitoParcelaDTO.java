@@ -18,8 +18,6 @@ public class DebitoParcelaDTO {
 
     private double valor;
 
-    private char situacao;
-
     @JsonIgnore
     private Debito debito;
 
@@ -29,7 +27,6 @@ public class DebitoParcelaDTO {
         dto.setNumero(entity.getNumero());
         dto.setDataVencimento(entity.getDataVencimento());
         dto.setValor(entity.getValor());
-        dto.setSituacao(entity.getSituacao());
         return dto;
     }
 

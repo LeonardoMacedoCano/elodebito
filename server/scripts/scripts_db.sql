@@ -17,7 +17,6 @@ CREATE TABLE debitoparcela (
     numero INT NOT NULL,
     datavencimento DATETIME NOT NULL,
     valor FLOAT NOT NULL,
-    situacao CHAR(1) NOT NULL,
     FOREIGN KEY (iddebito) REFERENCES debito(id),
     UNIQUE KEY (iddebito, numero)
 );

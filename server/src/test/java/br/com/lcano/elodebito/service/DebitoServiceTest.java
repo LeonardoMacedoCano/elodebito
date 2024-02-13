@@ -152,7 +152,6 @@ public class DebitoServiceTest {
             NovoDebitoParcelaDTO novaParcelaDTO = new NovoDebitoParcelaDTO();
             novaParcelaDTO.setNumero(i);
             novaParcelaDTO.setDataVencimento(new Date());
-            novaParcelaDTO.setSituacao('A');
             novaParcelaDTO.setValor(10.0);
             parcelasDTO.add(novaParcelaDTO);
         }
