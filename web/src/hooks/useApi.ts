@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { useMensagem } from '../providers/MensagemProvider';
 import { Debito } from '../types/Debito';
+import { Pessoa } from '../types/Pessoa';
+import { FormPessoa } from '../types/FormPessoa';
 
 interface ApiResponse {
   success?: string;
@@ -62,6 +64,14 @@ const useApi = () => {
   };
 
   return {
+    findPessoas: async (page: number, size: number) =>
+      request<{ content: Pessoa[] }>('get', `/api/pessoas?page=${page}&size=${size}`).then(response => response?.content),
+    findPessoaById: async (idPessoa: number) =>
+      request<Pessoa>('get', `/api/pessoas/${idPessoa}`),
+    addPessoa: async (data: FormPessoa) =>
+      request<Pessoa>('post', '/api/pessoas', data),
+    excluirPessoa: async (id: number) =>
+      request<boolean>('delete', `/api/pessoas/${id}`),
     findDebitos: async (page: number, size: number, dtLancInicio: string, dtLancFim: string, cpf: string, nomePessoa: string) =>
       request<{ content: Debito[] }>('get', 
       `/api/debitos?page=${page}&size=${size}&dataLancamentoInicio=${dtLancInicio}&dataLancamentoFim=${dtLancFim}&cpf=${cpf}&nomePessoa=${nomePessoa}`).then(response => response?.content),
