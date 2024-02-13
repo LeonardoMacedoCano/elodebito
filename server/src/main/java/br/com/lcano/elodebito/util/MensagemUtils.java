@@ -13,6 +13,9 @@ public class MensagemUtils {
     public static final String PARCELA_DATA_VENCIMENTO_INVALIDO = "Data de vencimento da parcela inválido.";
     public static final String PARCELA_VALOR_INVALIDO = "Valor da parcela inválido.";
 
+
+    public static final String PESSOA_ADICIONADA_COM_SUCESSO = "Pessoa adicionada com sucesso.";
+    public static final String PESSOA_DELETADA_COM_SUCESSO = "Pessoa deletada com sucesso.";
     public static final String DEBITO_ADICIONADO_COM_SUCESSO = "Débito adicionado com sucesso.";
     public static final String DEBITO_DELETADO_COM_SUCESSO = "Débito deletado com sucesso.";
     public static final String PARCELA_ADICIONADO_COM_SUCESSO = "Parcela adicionada com sucesso.";
