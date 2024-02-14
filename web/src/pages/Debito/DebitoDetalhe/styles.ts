@@ -72,3 +72,11 @@ export const Button = styled.button`
     border: 1px solid ${props => props.theme.colors.white};
     border-radius: 5px;
 `;
+
+export const Select = styled.select`
+    width: 100%;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid ${props => props.theme.colors.tertiary};
+    border-radius: 5px;
+`;

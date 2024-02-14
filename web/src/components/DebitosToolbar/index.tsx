@@ -92,7 +92,9 @@ export const DebitosToolbar = ({
                 </C.FirstRow>
                 <C.SecondRow>
                     {idSelecionado === null ? (
-                        <C.Button>Gerar Debito</C.Button>
+                        <RouterLink to={`/debito-detalhe`}>
+                            <C.Button>Gerar Debito</C.Button>
+                        </RouterLink>
                     ) : (
                         <RouterLink to={`/debito-detalhe/${idSelecionado}`}>
                             <C.Button>Visualizar Débito</C.Button>

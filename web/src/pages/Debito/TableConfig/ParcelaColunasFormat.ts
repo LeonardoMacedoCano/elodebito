@@ -1,4 +1,4 @@
-import { formatarData } from "../../../utils/DateUtils";
+import { dateToString, formatarData } from "../../../utils/DateUtils";
 
 export const ParcelaColunasFormat = {
     id: (value: string | number | boolean | Date): React.ReactNode => String(value),
@@ -6,6 +6,8 @@ export const ParcelaColunasFormat = {
     dataVencimento: (value: string | number | boolean | Date): React.ReactNode => {
         if (typeof value === 'string') {
             return formatarData(value);       
+        } else if (value instanceof Date) {
+            return formatarData(dateToString(value));
         } else {
             return String(value);
         }

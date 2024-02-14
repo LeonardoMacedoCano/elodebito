@@ -59,6 +59,9 @@ const ConsultaPessoas: React.FC = () => {
     const handleExcluirPessoaEvent = async () => {
         if (idSelecionado !== null){
             await api.excluirPessoa(idSelecionado);
+            setIdSelecionado(null)
+            setNomePessoa('')
+            setCpfPessoa('')
             setCarregando(true);
         }
     }; 
@@ -75,6 +78,7 @@ const ConsultaPessoas: React.FC = () => {
                             <C.Input
                                 type={'text'}
                                 value={nomePessoa}
+                                readOnly={idSelecionado !== null}
                                 onChange={(e) => handleNomePessoaChange(e.target.value)}
                             />
                         </C.SecondRow>
@@ -88,6 +92,7 @@ const ConsultaPessoas: React.FC = () => {
                             <C.Input
                                 type={'text'}
                                 value={cpfPessoa}
+                                readOnly={idSelecionado !== null}
                                 onChange={(e) => handleCpfPessoaChange(e.target.value)}
                             />
                         </C.SecondRow>

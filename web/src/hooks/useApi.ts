@@ -3,6 +3,7 @@ import { useMensagem } from '../providers/MensagemProvider';
 import { Debito } from '../types/Debito';
 import { Pessoa } from '../types/Pessoa';
 import { FormPessoa } from '../types/FormPessoa';
+import { FormDebito } from '../types/FormDebito';
 
 interface ApiResponse {
   success?: string;
@@ -77,6 +78,8 @@ const useApi = () => {
       `/api/debitos?page=${page}&size=${size}&dataLancamentoInicio=${dtLancInicio}&dataLancamentoFim=${dtLancFim}&cpf=${cpf}&nomePessoa=${nomePessoa}`).then(response => response?.content),
     findDebitoById: async (idDebito: number) =>
       request<Debito>('get', `/api/debitos/${idDebito}`),
+    gerarDebito: async (data: FormDebito) =>
+      request<Debito>('post', '/api/debitos', data),
   };
 };
 
