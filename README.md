@@ -31,7 +31,7 @@ Criar uma API Rest para cadastrar e manipular débitos.
 ## Requisitos Técnicos
 
 - [x] ● Java e spring boot
-- [ ] ● Salvar em algum banco de dados relacional
+- [x] ● Salvar em algum banco de dados relacional
 - [x] ● Testes unitários e de integração
 
 ## Extras Funcionalidades
